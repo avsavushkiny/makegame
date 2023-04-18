@@ -8,7 +8,7 @@ Terminal trm;
 void hello()
 {
     gfx.drawCursor(true,sys.joi0x(),sys.joi0y());
-    gfx.print("Hello Bro!\nI am a MakeGame!", 0, 10, 10, 6);
+    gfx.print("Hello Bro!\nI am a MakeGame!\nWhat is your name?", 0, 20, 10, 6);
 }
 
 
