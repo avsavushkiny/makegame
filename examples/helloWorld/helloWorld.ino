@@ -1,4 +1,4 @@
-#include "mg.h"
+#include <makegame.h>
 
 Systems sys;
 Graphics gfx;
@@ -8,7 +8,7 @@ Terminal trm;
 void hello()
 {
     gfx.drawCursor(true,sys.joi0x(),sys.joi0y());
-    gfx.print("text\ntext2", 10, 10, 10, 6);
+    gfx.print("Hello Bro!\nI am a MakeGame!", 0, 10, 10, 6);
 }
 
 
@@ -25,7 +25,5 @@ void loop()
 
     if (sys.sw0())
     {
-        Serial.println("hello");
-        inf.messageInfo("game over\ntry again", 1500);
     }
 }

@@ -8,7 +8,7 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include "mg.h"
+#include <makegame.h>
 
 #define CHIP_GFX ST7565
 

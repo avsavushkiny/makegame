@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h>
-#include "mg.h"
+#include <makegame.h>
 
 int DEF_RES_Y0 = 2100;
 int DEF_RES_Y1 = 2100;
