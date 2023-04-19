@@ -10,8 +10,6 @@
 #include <U8g2lib.h>
 #include <makegame.h>
 
-#define CHIP_GFX ST7565
-
 const uint8_t WIDTH_LCD = 128;
 const uint8_t HEIGHT_LCD = 64;
 
@@ -217,7 +215,6 @@ void Interface::messageInfo(String text, int del)
 {
     u8g2.clearBuffer();
     _gfx.print(text, 10, 27, 10, 6);
-    u8g2.drawFrame(10, 27, 50, 50);
     u8g2.sendBuffer();
     delay(del);
 }

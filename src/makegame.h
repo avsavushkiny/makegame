@@ -1,12 +1,13 @@
 /*
-    library for MakeGame board.
+    Library for MakeGame board.
 
     [!] Educational version
     [!] Required u8g2 library
 
-    autor: Savushkin Alexander    
-    git:   @avsavushkiny
-    date:  18.04.2023
+    author: Savushkin Alexander    
+       git: @avsavushkiny
+    e-mail: avsavushkiny@live.ru
+      date: 18.04.2023
 */
 
 #ifndef MAKEGAME_H
