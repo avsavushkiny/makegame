@@ -1,2 +1,2 @@
 # makegame
-Makegame is a library for creating games based on microcontroller.
+Makegame-lib is a library for creating games based on MakeGame gameboard.
