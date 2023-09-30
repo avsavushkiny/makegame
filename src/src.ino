@@ -6,6 +6,7 @@ Interface inf;
 Button btn1, btn2, btn3;
 Cursor crs1;
 Shortcut iconSapper, iconGears;
+Screensaver scr;
 
 const uint8_t sapper_bits[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 
@@ -93,7 +94,7 @@ void drawScore()
 
 void gamePong()
 {
-    drawField(); drawRackets(); drawBall(); drawScore();
+    drawField(); drawRackets(); drawBall(); drawScore(); scr.screensaver();
 }
 
 void clickBtn1()
@@ -124,6 +125,7 @@ void setup1(){}
 
 void loop()
 {
+    
     gfx.render(gamePong);
 }
 
