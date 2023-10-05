@@ -691,11 +691,17 @@ void Terminal::terminal()
 /* The function checks whether the joystick or button is pressed at a certain moment */
 bool Screensaver::is_touched()
 {
-    if (() == 0 && calculateIndexY1() == 0 && calculateIndexX0() == 0 && calculateIndexX1() == 0 && pressKeyA() == 0 && pressKeyB() == 0)
+    if (calculateIndexY0() == 0 && calculateIndexY1() == 0 && calculateIndexX0() == 0 && calculateIndexX1() == 0 && pressKeyA() == 0 && pressKeyB() == 0)
     {
         return true;
     }
     return false;
+}
+
+void Screensaver::rend_cat()
+{
+    u8g2.drawXBMP(10, 5, 100, 10, bitmap_cat);
+    digitalWrite(PIN_BACKLIGHT_LCD, false);
 }
 
 /* If the set time has passed, the screen backlight is turned off and all actions are paused */
@@ -706,11 +712,12 @@ void Screensaver::screensaver()
   }
   if (millis() - screen_timing > 10000){ 
     screen_timing = millis();
-    while (IsTouched())
+    while (is_touched())
     {
-        u8g2.drawXBMP(10, 5, 100, 10, bitmap_cat);
-        digitalWrite(PIN_BACKLIGHT_LCD, false);
+        _gfx.render(Screensaver::rend_cat);
     }
+    digitalWrite(PIN_BACKLIGHT_LCD, true);
   }
 }
 
+                                                                                                                                               

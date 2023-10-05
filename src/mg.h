@@ -152,6 +152,7 @@ class Screensaver : Joystick
 {
     private:
         bool is_touched();
+        void rend_cat();
     public:
         void screensaver();
 };
