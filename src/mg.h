@@ -147,12 +147,4 @@ public:
     bool cursor(bool stateCursor, int xCursor, int yCursor);
 };
 
-class Screensaver : Joystick
-{
-    private:
-    public:
-        bool is_touched();
-        void screensaver();
-};
-
 #endif

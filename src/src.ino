@@ -1,3 +1,10 @@
+/*
+    Sketch for development
+
+    Alexander Savushkin
+    10.10.23
+*/
+
 #include "mg.h"
 
 Joystick joy;
@@ -94,7 +101,7 @@ void drawScore()
 
 void gamePong()
 {
-    drawField(); drawRackets(); drawBall(); drawScore(); scr.screensaver();
+    drawField(); drawRackets(); drawBall(); drawScore();
 }
 
 void clickBtn1()
@@ -121,14 +128,17 @@ void setup()
     gfx.initializationSystem();
 }
 
-void setup1(){}
+void setup1()
+{
+    //code
+}
 
 void loop()
 {
-    
     gfx.render(gamePong);
 }
 
 void loop1()
 {   
+    //code
 }

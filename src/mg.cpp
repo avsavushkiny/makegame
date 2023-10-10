@@ -11,7 +11,6 @@
 
 Graphics _gfx;
 
-unsigned long screen_timing = 0;
 unsigned long previousMillis = 0;
 unsigned long prevTime_0{};
 const long interval = 300;
@@ -632,29 +631,6 @@ void Terminal::terminal()
       {
         command.active = true;
       }
-    }
-  }
-}
-
-bool Screensaver::is_touched()
-{
-    if (() == 0 && calculateIndexY1() == 0 && calculateIndexX0() == 0 && calculateIndexX1() == 0 && pressKeyA() == 0 && pressKeyB() == 0)
-    {
-        return true;
-    }
-    return false;
-}
-
-void Screensaver::screensaver()
-{
-  if (!IsTouched()){
-    screen_timing = millis();
-  }
-  if (millis() - screen_timing > 10000){ 
-    screen_timing = millis();
-    while (IsTouched())
-    {
-        digitalWrite(PIN_BACKLIGHT_LCD, false);
     }
   }
 }
