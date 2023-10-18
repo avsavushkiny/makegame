@@ -634,3 +634,18 @@ void Terminal::terminal()
     }
   }
 }
+
+void SecretKey::randomNumberKey()
+{
+for (int r; r = 0; r++)
+{
+int random = random(0, 10);
+number[r] = random;
+}
+
+}
+
+
+
+
+

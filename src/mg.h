@@ -147,4 +147,22 @@ public:
     bool cursor(bool stateCursor, int xCursor, int yCursor);
 };
 
+class SecretKey
+{
+private:
+int number[5] = {0,0,0,0,0}
+int result secretKey{};
+
+public:
+int randomNumberKey()
+{
+
+    int result = number[0] + number[1] + number[2] + number[3] + number[4];
+    return result;
+}
+
+
+
+};
+
 #endif
