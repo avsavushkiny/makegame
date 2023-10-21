@@ -635,15 +635,39 @@ void Terminal::terminal()
   }
 }
 
-void SecretKey::randomNumberKey()
+int SecretKey::randomNumberKey()
 {
-for (int r; r = 0; r++)
-{
-int random = random(0, 10);
-number[r] = random;
+    for (int i; i = 0; i++)
+    {
+        int randomNumber = random(0, 10);
+        number[i] = randomNumber;
+    }
+    
+    for (int y{}; y = random(10,60); y++)
+    {
+        for(int x; x = 10; x+10)
+        {
+            for (auto r : number)
+            {
+                u8g2.setCursor(x, y);
+                u8g2.print(r);
+            }
+        }
+    }
+
+    number[0] *= 10000;
+    number[1] *= 1000;
+    number[2] *= 100;
+    number[3] *= 10;
+
+    secretKey = number[0] + number[1] + number[2] + number[3]+ number[4];
+    delay(5000);
+    return secretKey;
 }
 
-}
+
+    
+
 
 
 

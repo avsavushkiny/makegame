@@ -149,20 +149,12 @@ public:
 
 class SecretKey
 {
-private:
-int number[5] = {0,0,0,0,0}
-int result secretKey{};
+    private:
+        int number[5] = {0,0,0,0,0};
+        int secretKey{};
 
-public:
-int randomNumberKey()
-{
-
-    int result = number[0] + number[1] + number[2] + number[3] + number[4];
-    return result;
-}
-
-
-
+    public:
+        int randomNumberKey();
 };
 
 #endif
