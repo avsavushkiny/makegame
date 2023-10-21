@@ -11,7 +11,11 @@
 
 Graphics _gfx;
 
+//for screensaver
 unsigned long screen_timing = 0;
+unsigned long sleep_mode_text_circulation = 0;
+int sleep_mode_text_x = 10, sleep_mode_text_y = 25;
+//-------
 unsigned long previousMillis = 0;
 unsigned long prevTime_0{};
 const long interval = 300;
@@ -689,7 +693,7 @@ void Terminal::terminal()
 }
 
 /* The function checks whether the joystick or button is pressed at a certain moment */
-bool Screensaver::is_touched()
+bool Screensaver::isTouched()
 {
     if (calculateIndexY0() == 0 && calculateIndexY1() == 0 && calculateIndexX0() == 0 && calculateIndexX1() == 0 && pressKeyA() == 0 && pressKeyB() == 0)
     {
@@ -698,23 +702,33 @@ bool Screensaver::is_touched()
     return false;
 }
 
-void Screensaver::rend_cat()
+/* Shows a notification about the start of sleep mode */
+void sleepModeText()
 {
-    u8g2.drawXBMP(10, 5, 100, 10, bitmap_cat);
-    digitalWrite(PIN_BACKLIGHT_LCD, false);
+    int text_x[8]{5, 10, 15, 20, 25, 30, 35, 40}, text_y[5]{10, 15, 25, 35, 40};
+    if (millis() - sleep_mode_text_circulation >= 5000)
+    {
+        sleep_mode_text_circulation = millis(); Serial.println("yes");
+        sleep_mode_text_x = text_x[random(0, 8)];
+        sleep_mode_text_y = text_y[random(0, 5)];
+    }
+    _gfx.print("Sleep mode: on\nMove joystick\nto continue", sleep_mode_text_x, sleep_mode_text_y, 8, 6);
 }
 
-/* If the set time has passed, the screen backlight is turned off and all actions are paused */
+/*Turns off the backlight and turns on an infinite loop with the text to pause until the joysticks are pressed or moved*/
 void Screensaver::screensaver()
 {
-  if (!is_touched()){
+  if (!isTouched())
+  {
     screen_timing = millis();
   }
-  if (millis() - screen_timing > 10000){ 
+  if (millis() - screen_timing > 20000){ 
     screen_timing = millis();
-    while (is_touched())
+    digitalWrite(PIN_BACKLIGHT_LCD, false);
+    sleep_mode_text_circulation = millis();
+    while (isTouched())
     {
-        _gfx.render(Screensaver::rend_cat);
+        _gfx.render(sleepModeText);
     }
     digitalWrite(PIN_BACKLIGHT_LCD, true);
   }

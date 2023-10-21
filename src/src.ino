@@ -94,7 +94,7 @@ void drawScore()
 
 void gamePong()
 {
-    drawField(); drawRackets(); drawBall(); drawScore(); scr.screensaver();
+    scr.screensaver(); drawField(); drawRackets(); drawBall(); drawScore(); 
 }
 
 void clickBtn1()
