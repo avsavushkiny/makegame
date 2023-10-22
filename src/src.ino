@@ -7,6 +7,7 @@ Button btn1, btn2, btn3;
 Cursor crs1;
 Shortcut iconSapper, iconGears;
 Screensaver scr;
+Terminal trm;
 
 const uint8_t sapper_bits[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 
@@ -68,7 +69,7 @@ void calculate()
         }
     }
 
-    //gfx.print((String)sys.s0x + " " + (String)sys.s0y, 30, 30);
+    //gfx.print((String)sys.s0x + " " + (String)sys.s0y, 30, 30); //debug
 }
 
 void drawRackets()
@@ -94,7 +95,7 @@ void drawScore()
 
 void gamePong()
 {
-    scr.screensaver(); drawField(); drawRackets(); drawBall(); drawScore(); 
+    drawField(); drawRackets(); drawBall(); drawScore(); 
 }
 
 void clickBtn1()
@@ -121,14 +122,18 @@ void setup()
     gfx.initializationSystem();
 }
 
-void setup1(){}
+void setup1()
+{
+
+}
 
 void loop()
 {
-    
     gfx.render(gamePong);
+    scr.screensaver(true, 10000);
 }
 
 void loop1()
-{   
+{ 
+    trm.terminal();
 }

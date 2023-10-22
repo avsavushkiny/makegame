@@ -150,11 +150,11 @@ public:
 class Screensaver : Joystick
 {
     private:
-        /*If joystick pressed ot moved - 0, else - 1 */
-        bool isTouched();
+        /* If joystick pressed ot moved - 0, else - 1 */
+        bool isTouched();    
     public:
-        /*turn off backlight and start infinite loop to pause if (is touched())*/
-        void screensaver();
+        /* Turn off backlight and start infinite loop to pause if (is touched()) */
+        void screensaver(bool state, uint timeUntil);
 };
 
 #endif
