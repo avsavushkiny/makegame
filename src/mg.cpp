@@ -212,6 +212,14 @@ void Graphics::print(String text, int x, int y) // text, x-position, y-position,
     }
 }
 
+void Graphics::print(auto data, int x, int y)
+{
+    u8g2.setFont(u8g2_font_6x10_tr);
+    u8g2.setCursor(x, y);
+
+    u8g2.print(data);
+}
+
 /* "wink text" output  */
 bool Graphics::winkPrint(void (*f)(String, int, int), String text, int x, int y, int interval)
 {
@@ -635,42 +643,36 @@ void Terminal::terminal()
   }
 }
 
-int SecretKey::randomNumberKey()
+void SecretKey::secretKey()
 {
-    for (int i; i = 0; i++)
+    for (int i = 0; i < 5; i++)
     {
-        int randomNumber = random(0, 10);
-        number[i] = randomNumber;
+        numbers[i] = random(1, 10);
     }
     
-    for (int y{}; y = random(10,60); y++)
+    int xx{7}, yy;
+
+    for (int i = 0; i < 5; i++)
     {
-        for(int x; x = 10; x+10)
-        {
-            for (auto r : number)
-            { 
+        yy = random(20, 50);
 
-            }
-        }
+        _gfx.print(numbers[i], xx, yy);
+        u8g2.drawFrame(xx-5, yy-10, 25, 25);
+        
+        xx += 25;
     }
-                string ra = int(r);
-                _gfx.print(r, 10, 32);
     
-    number[0] *= 10000;
-    number[1] *= 1000;
-    number[2] *= 100;
-    number[3] *= 10;
+    numbers[0] *= 10000;
+    numbers[1] *= 1000;
+    numbers[2] *= 100;
+    numbers[3] *= 10;
 
-    secretKey = number[0] + number[1] + number[2] + number[3] + number[4];
-    delay(5000);
-    return secretKey;
+    numberSecretKey = numbers[0] + numbers[1] + numbers[2] + numbers[3] + numbers[4];
+    
+    //_gfx.print(numberSecretKey, 5, 10); delay(5000);
+
+    Serial.println(numberSecretKey); delay(30000);
 }
-
-
-    
-
-
-
 
 
 

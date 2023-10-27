@@ -8,7 +8,6 @@ Interface inf;
 Button btn1, btn2, btn3;
 Cursor crs1;
 Shortcut iconSapper, iconGears;
-SecretKey sk1;
 
 const uint8_t sapper_bits[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 
@@ -97,7 +96,7 @@ void drawScore()
 void gamePong()
 {
     //drawField(); drawRackets(); drawBall(); drawScore();
-    sk1.randomNumberKey();
+    SecretKey sk1; sk1.secretKey();
 }
 
 void clickBtn1()

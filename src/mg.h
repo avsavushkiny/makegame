@@ -85,6 +85,8 @@ public:
     /* Data output in x, y coordinates. 
        Line break is supported - '\n' */
     void print(String text, int x, int y);
+    /* Data output*/
+    void print(auto data, int x, int y);
     /* Runs a void-function with text-string and output x-y-coordinates parameters.
        The interval-interval controls the output. */
     bool winkPrint(void (*f)(String, int, int), String text, int x, int y, /*delay*/ int interval);
@@ -149,12 +151,13 @@ public:
 
 class SecretKey
 {
-    private:
-        int number[5] = {0,0,0,0,0};
-        int secretKey{};
+private:
+    int numbers[5] = {0, 0, 0, 0, 0};
 
-    public:
-        int randomNumberKey();
+public:
+    int numberSecretKey{};
+
+    void secretKey();
 };
 
 #endif
