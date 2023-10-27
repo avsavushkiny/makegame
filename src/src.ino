@@ -1,9 +1,4 @@
-/*
-    Sketch for development
 
-    Alexander Savushkin
-    10.10.23
-*/
 
 #include "mg.h"
 

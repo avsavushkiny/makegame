@@ -648,19 +648,20 @@ int SecretKey::randomNumberKey()
         for(int x; x = 10; x+10)
         {
             for (auto r : number)
-            {
-                u8g2.setCursor(x, y);
-                u8g2.print(r);
+            { 
+
             }
         }
     }
-
+                string ra = int(r);
+                _gfx.print(r, 10, 32);
+    
     number[0] *= 10000;
     number[1] *= 1000;
     number[2] *= 100;
     number[3] *= 10;
 
-    secretKey = number[0] + number[1] + number[2] + number[3]+ number[4];
+    secretKey = number[0] + number[1] + number[2] + number[3] + number[4];
     delay(5000);
     return secretKey;
 }
