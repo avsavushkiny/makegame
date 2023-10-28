@@ -152,11 +152,8 @@ public:
 class SecretKey
 {
 private:
-    int numbers[5] = {0, 0, 0, 0, 0};
-
 public:
     int numberSecretKey{};
-
     void secretKey();
 };
 

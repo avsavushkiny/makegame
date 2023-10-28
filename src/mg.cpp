@@ -11,6 +11,12 @@
 
 Graphics _gfx;
 
+int numbers[5] = {0, 0, 0, 0, 0};
+int yy_array[5];
+
+unsigned long timeX = 0;
+int numberSecretKey = 0;
+
 unsigned long previousMillis = 0;
 unsigned long prevTime_0{};
 const long interval = 300;
@@ -643,36 +649,45 @@ void Terminal::terminal()
   }
 }
 
-void SecretKey::secretKey()
+void SecretCodeImg()
 {
+    if (millis() - timeX >= 10000)
+    {
+        timeX = millis();
+        for (int i = 0; i < 5; i++)
+        {
+            numbers[i] = random(1, 10);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            yy_array[i] = random(20, 50);
+        }
+    }    
+    int xx{7};
     for (int i = 0; i < 5; i++)
     {
-        numbers[i] = random(1, 10);
-    }
-    
-    int xx{7}, yy;
+        _gfx.print(numbers[i], xx, yy_array[i]);
+        u8g2.drawFrame(xx-5, yy_array[i]-10, 25, 25);
 
-    for (int i = 0; i < 5; i++)
-    {
-        yy = random(20, 50);
-
-        _gfx.print(numbers[i], xx, yy);
-        u8g2.drawFrame(xx-5, yy-10, 25, 25);
-        
         xx += 25;
     }
-    
-    numbers[0] *= 10000;
-    numbers[1] *= 1000;
-    numbers[2] *= 100;
-    numbers[3] *= 10;
+    numberSecretKey = numbers[0]*10000 + numbers[1]*1000 + numbers[2]*100 + numbers[3]*10 + numbers[4];
 
-    numberSecretKey = numbers[0] + numbers[1] + numbers[2] + numbers[3] + numbers[4];
-    
-    //_gfx.print(numberSecretKey, 5, 10); delay(5000);
-
-    Serial.println(numberSecretKey); delay(30000);
+    Serial.println(numberSecretKey);
+    _gfx.print(numberSecretKey 5, 10);
 }
 
-
-
+void SecretKey::secretKey()
+{
+    //timer(void(*f)(void), interval)
+   
+    bool A = true;
+    timeX = 10000;
+    while (true){
+        _gfx.render(SecretCodeImg);
+    }
+        //_gfx.print(numberSecretKey, 5, 10); delay(5000);
+        //Serial.println(numberSecretKey); delay(30000);
+    
+}
