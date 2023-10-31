@@ -86,7 +86,7 @@ public:
        Line break is supported - '\n' */
     void print(String text, int x, int y);
     /* Data output*/
-    void print(auto data, int x, int y);
+    void print(int data, int x, int y);
     /* Runs a void-function with text-string and output x-y-coordinates parameters.
        The interval-interval controls the output. */
     bool winkPrint(void (*f)(String, int, int), String text, int x, int y, /*delay*/ int interval);

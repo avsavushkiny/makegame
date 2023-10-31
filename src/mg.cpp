@@ -14,6 +14,8 @@ Graphics _gfx;
 int numbers[5] = {0, 0, 0, 0, 0};
 int yy_array[5];
 
+bool time1 = true
+
 unsigned long timeX = 0;
 int numberSecretKey = 0;
 
@@ -218,7 +220,7 @@ void Graphics::print(String text, int x, int y) // text, x-position, y-position,
     }
 }
 
-void Graphics::print(auto data, int x, int y)
+void Graphics::print(int data, int x, int y)
 {
     u8g2.setFont(u8g2_font_6x10_tr);
     u8g2.setCursor(x, y);
@@ -673,18 +675,24 @@ void SecretCodeImg()
         xx += 25;
     }
     numberSecretKey = numbers[0]*10000 + numbers[1]*1000 + numbers[2]*100 + numbers[3]*10 + numbers[4];
-
+    
     Serial.println(numberSecretKey);
-    _gfx.print(numberSecretKey 5, 10);
+    _gfx.print(numberSecretKey, 5, 10)
+if (millis() - timeX >= 30000)
+{
+    time1 = false;
+    break;
 }
+
+
+}
+
 
 void SecretKey::secretKey()
 {
     //timer(void(*f)(void), interval)
-   
-    bool A = true;
     timeX = 10000;
-    while (true){
+    while (time1){
         _gfx.render(SecretCodeImg);
     }
         //_gfx.print(numberSecretKey, 5, 10); delay(5000);
