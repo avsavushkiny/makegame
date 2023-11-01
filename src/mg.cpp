@@ -677,24 +677,25 @@ void SecretCodeImg()
     numberSecretKey = numbers[0]*10000 + numbers[1]*1000 + numbers[2]*100 + numbers[3]*10 + numbers[4];
     
     Serial.println(numberSecretKey);
-    _gfx.print(numberSecretKey, 5, 10)
-if (millis() - timeX >= 30000)
-{
-    time1 = false;
-    break;
-}
-
-
+    _gfx.print(numberSecretKey, 5, 10);
 }
 
 
 void SecretKey::secretKey()
 {
-    //timer(void(*f)(void), interval)
     timeX = 10000;
     while (time1){
         _gfx.render(SecretCodeImg);
     }
+    if (millis() - timeX >= 30000)
+    {
+        timeX = millis();
+        time1 = false;
+        break;
+    }
+    
+
+
         //_gfx.print(numberSecretKey, 5, 10); delay(5000);
         //Serial.println(numberSecretKey); delay(30000);
     
