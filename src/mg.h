@@ -78,10 +78,15 @@ public:
     void render(void (*f)());
     /* Clearing the display buffer. */
     void clear();
+    /* Data output in x, y coordinates. Size font 5, 6, 7, 8, 10, 12, 13.
+       lii-line spacing (10 by default),
+       chi-character spacing (6 by default).
+       Line break is supported - '\n' */
+    void print(int8_t sizeFont, String text, int x, int y, int8_t lii, int8_t chi);
     /* Data output in x, y coordinates. lii-line spacing (10 by default),
        chi-character spacing (6 by default).
        Line break is supported - '\n' */
-    void print(String text, int x, int y, int lii, int chi);
+    void print(String text, int x, int y, int8_t lii, int8_t chi);
     /* Data output in x, y coordinates. 
        Line break is supported - '\n' */
     void print(String text, int x, int y);

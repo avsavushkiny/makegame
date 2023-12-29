@@ -9,6 +9,9 @@
 #include <U8g2lib.h> 
 #include "mg.h"
 
+//version library
+const int8_t VERSION_LIB[] = {1, 1};
+
 Graphics _gfx;
 
 unsigned long previousMillis = 0;
@@ -135,9 +138,12 @@ void Graphics::initializationSystem()
     pinMode(PIN_BACKLIGHT_LCD, OUTPUT);
     digitalWrite(PIN_BACKLIGHT_LCD, true);
     //platform logo output
+    //--
     u8g2.clearBuffer();
     u8g2.drawXBMP(((WIDTH_LCD - mg_l_w)/2), ((HEIGHT_LCD - mg_l_h)/2), mg_l_w, mg_l_h, mg_l_bits); //56x28 px
+    _gfx.print(6, (String)VERSION_LIB[0] + "." + (String)VERSION_LIB[1] , 0, 63, 10, 4);
     u8g2.sendBuffer();
+    //--
     delay(2500);
 }
 
@@ -171,15 +177,45 @@ void Graphics::clear()
 }
 
 /* print */
-/* text output with parameters, add line interval (def: 10) and character interval (def: 6) */
-void Graphics::print(String text, int x, int y, int lii, int chi) // text, x-position, y-position, line interval (8-10), character interval (4-6)
+/* text output with parameters, add size font, add line interval (def: 10) and character interval (def: 6) */
+void Graphics::print(int8_t sizeFont, String text, int x, int y, int8_t lii, int8_t chi) // text, x-position, y-position, line interval (8-10), character interval (4-6)
 {
     int sizeText = text.length() + 1;
     int yy{0};
 
+    //micro, 6, 7, 8, 10, 12, 13
+    if (sizeFont == 5) u8g2.setFont(u8g2_font_micro_tr);
+    else if (sizeFont == 6) u8g2.setFont(u8g2_font_4x6_tr);
+    else if (sizeFont == 7) u8g2.setFont(u8g2_font_5x7_tr);
+    else if (sizeFont == 8) u8g2.setFont(u8g2_font_5x8_tr);
+    else if (sizeFont == 10) u8g2.setFont(u8g2_font_6x10_tr);
+    else if (sizeFont == 12) u8g2.setFont(u8g2_font_6x12_tr);
+    else if (sizeFont == 13) u8g2.setFont(u8g2_font_6x13_tr);
+    else u8g2.setFont(u8g2_font_6x10_tr); //default
+
     for (int i = 0, xx = 0; i < sizeText, xx < (sizeText * chi); i++, xx += chi)
     {
-        u8g2.setFont(u8g2_font_6x10_tr);
+        u8g2.setCursor(xx + x, yy + y);
+        u8g2.print(text[i]);
+
+        if (text[i] == '\n')
+        {
+            yy += lii; // 10
+            xx = -chi; // 6
+        }
+    }
+}
+
+/* text output with parameters, add line interval (def: 10) and character interval (def: 6) */
+void Graphics::print(String text, int x, int y, int8_t lii, int8_t chi) // text, x-position, y-position, line interval (8-10), character interval (4-6)
+{
+    int sizeText = text.length() + 1;
+    int yy{0};
+
+    u8g2.setFont(u8g2_font_6x10_tr);
+
+    for (int i = 0, xx = 0; i < sizeText, xx < (sizeText * chi); i++, xx += chi)
+    {
         u8g2.setCursor(xx + x, yy + y);
         u8g2.print(text[i]);
 
@@ -198,9 +234,10 @@ void Graphics::print(String text, int x, int y) // text, x-position, y-position,
     int sizeText = text.length() + 1;
     int yy{0};
 
+    u8g2.setFont(u8g2_font_6x10_tr);
+
     for (int i = 0, xx = 0; i < sizeText, xx < (sizeText * chi); i++, xx += chi)
     {
-        u8g2.setFont(u8g2_font_6x10_tr);
         u8g2.setCursor(xx + x, yy + y);
         u8g2.print(text[i]);
 

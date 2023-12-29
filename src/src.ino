@@ -13,7 +13,6 @@ Interface inf;
 Button btn1, btn2, btn3;
 Cursor crs1;
 Shortcut iconSapper, iconGears;
-Screensaver scr;
 
 const uint8_t sapper_bits[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 
@@ -117,9 +116,15 @@ void clickBtn2()
 void helloBro()
 {
     joy.updatePositionXY();
-    btn1.button("HELLO", 5, 40, clickBtn1, joy.posX0, joy.posY0); //0
-    iconSapper.shortcut(sapper_bits, 0, 0, NULL, joy.posX1, joy.posY1); //1
-    gfx.print("hello\nworld\nuser!", 65, 10, 8, 4);
+    btn1.button("OK", 5, 45, clickBtn1, joy.posX0, joy.posY0); //0
+    iconSapper.shortcut(sapper_bits, 0, 0, clickBtn1, joy.posX0, joy.posY0); //0
+    
+    gfx.print(5, "hello world user!", 45, 10, 8, 4);
+    gfx.print(6, "hello world user!", 45, 20, 8, 5);
+    gfx.print(7, "hello world user!", 45, 30, 8, 5);
+    gfx.print(8, "hello world user!", 45, 40, 8, 6);
+    gfx.print(10, "hello world user!", 45, 50, 8, 6);
+    
     crs1.cursor(true, joy.posX0, joy.posY0);
 }
 
@@ -135,7 +140,7 @@ void setup1()
 
 void loop()
 {
-    gfx.render(gamePong);
+    //gfx.render(helloBro);
 }
 
 void loop1()
