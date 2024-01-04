@@ -14,9 +14,31 @@ const int8_t VERSION_LIB[] = {1, 1};
 
 Graphics _gfx;
 
-unsigned long previousMillis = 0;
+enum StateOs
+{
+    /* State OS */
+    _ON,
+    _OFF,
+    _PAUSED,
+    _SLEEP,
+    /* State game */
+    _IN_GAME,
+    _OFF_GAME,
+    _CLOSE_GAME,
+    _RESTART_GAME,
+    _PAUSED_GAME
+
+} STATE_OS;
+
+//for screensaver
+unsigned long screenTiming{};
+unsigned long sleepModeTexCirculation{};
+int sleepTextX{5}, sleepTextY{10};
+
+//for timer
+unsigned long previousMillis{};
 unsigned long prevTime_0{};
-const long interval = 300;
+const long interval{300};
 
 /* cursor */
 #define cursor_w 7
@@ -73,7 +95,7 @@ const uint8_t qr_bits[] = {
   0xDC, 0xCF, 0x1B, 0x01, 0x7F, 0xE3, 0xA6, 0x50, 0x00, };
 
 /* icon: icon */
-#define icon_wi 8
+#define icon_w 8
 #define icon_h 8
 const uint8_t icon_bits[] = {
   0xFF, 0x81, 0xBD, 0xB9, 0xBD, 0xAD, 0x81, 0xFF, };
@@ -129,6 +151,8 @@ void Graphics::controlBacklight(bool state)
 /* graphics output objects */
 void Graphics::initializationSystem()
 {
+    //setting the operating system state
+    STATE_OS = _ON;
     //setting display, contrast
     u8g2.begin();
     u8g2.setContrast(0);
@@ -602,7 +626,7 @@ int8_t Joystick::calculateIndexX1() // obj 1x
         return OBJ_X1 = 0;
 }
 
-/* timer */
+/* Timer */
 void Timer::timer(void (*f)(void), int interval)
 {
     unsigned long currTime = millis();
@@ -671,3 +695,61 @@ void Terminal::terminal()
     }
   }
 }
+
+/* Screensaver */
+/* The function checks whether the joystick or button is pressed at a certain moment */
+bool Screensaver::isTouched()
+{
+  if ((calculateIndexY0() == 0) && (calculateIndexY1() == 0) && 
+      (calculateIndexX0() == 0) && (calculateIndexX1() == 0) && 
+      (pressKeyA() == 0) && (pressKeyB() == 0))
+  {
+    return true;
+  }
+
+  return false;
+}
+
+/* Shows a notification about the start of sleep mode */
+void sleepModeText()
+{
+  if (millis() - sleepModeTexCirculation >= 5000)
+  {
+    sleepModeTexCirculation = millis();
+
+    sleepTextX = random(0, 98);   // Sleep (5 character) --> 128 px - (5 char * 6 px)
+    sleepTextY = random(10, 64);  // 64 px - 10 px
+  }
+
+  _gfx.print("Sleep", sleepTextX, sleepTextY, 8, 6);
+}
+
+/* Turns off the backlight and turns on an infinite loop
+   with the text to pause until the joysticks are pressed or moved */
+void Screensaver::screensaver(bool state, uint timeUntil)
+{
+  if ((state == true))
+  {
+    if (!isTouched())
+    {
+      screenTiming = millis();
+    }
+
+    if (millis() - screenTiming > timeUntil)
+    {
+      screenTiming = millis();
+
+      digitalWrite(PIN_BACKLIGHT_LCD, false);
+
+      sleepModeTexCirculation = millis();
+
+      while (isTouched() == true)
+      {
+        _gfx.render(sleepModeText);
+      }
+
+      digitalWrite(PIN_BACKLIGHT_LCD, true);
+    }
+  }
+}
+                                                                                                                                               
