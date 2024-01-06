@@ -15,6 +15,7 @@ Cursor crs1;
 Shortcut iconSapper, iconGears;
 Screensaver scr;
 Terminal trm;
+Melody song;
 
 const uint8_t sapper_bits[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 
@@ -52,11 +53,11 @@ void calculate()
     //rebound
     if (ballX <= 0)
     {
-        score2++; ballXspeed *= -1;
+        score2++; ballXspeed *= -1; song.song(song.Bang1);
     }
     if (ballX >= 127 - 4)
     {
-        score1++; ballXspeed *= -1;
+        score1++; ballXspeed *= -1; song.song(song.Bang1);
     }
 
     //rebound player 1
@@ -107,6 +108,8 @@ void gamePong()
 
 void clickBtn1()
 {
+    //song.lM = song.Bang1; //исправить на более короткую запись
+    song.song(song.Bang2);
     inf.message("You clicked on\nthe Stick 0 button\n:D", 1500);
 }
 
@@ -137,15 +140,18 @@ void setup()
 
 void setup1()
 {
+    song.song(song.MakeGame);
 }
 
 void loop()
 {
     gfx.render(gamePong);
-    scr.screensaver(true, 10000);
+    //gfx.render(helloBro);
+    scr.screensaver(true, 30000);
 }
 
 void loop1()
 { 
-    trm.terminal();
+    //trm.terminal();
+    song.songCore();
 }

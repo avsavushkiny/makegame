@@ -154,12 +154,43 @@ public:
 
 class Screensaver : Joystick
 {
-    private:
-        /* If joystick pressed ot moved - 0, else - 1 */
-        bool isTouched();    
-    public:
-        /* Turn off backlight and start infinite loop to pause if (is touched()) */
-        void screensaver(bool state, uint timeUntil);
+private:
+    /* If joystick pressed ot moved - 0, else - 1 */
+    bool isTouched();    
+public:
+    /* Turn off backlight and start infinite loop to pause if (is touched()) */
+    void screensaver(bool state, uint timeUntil);
+};
+
+class Melody
+{
+private:
+    int8_t BEAT = 120;
+
+    int songNokia[13][2] = {{2637,126}, {2349,134}, {1480,245}, 
+                            {1661,248}, {2217,115}, {1976,141}, 
+                            {1175,276}, {1319,296}, {1976,138}, 
+                            {1760,168}, {1109,316}, {1319,484}, 
+                            {1760,721}};
+
+    int songMakeGame[7][2] = {{330,77}, {2637,256}, {415,791}, {523,23}, {494,860}, {1865,105}, {2459,128}};
+    int songBang1[2][2] = {{300, 100}, {300, 100}};
+    int songBang2[2][2] = {{100, 100}, {100, 100}};
+public:
+    enum listMelody
+    {
+        None,     // 0
+        MakeGame, // 1
+        Bang1,    // 2
+        Bang2,    // 3
+        Nokia,
+    };
+
+    listMelody lM;
+
+    void songCore();
+    void song(listMelody num);
+
 };
 
 #endif

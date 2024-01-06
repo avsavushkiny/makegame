@@ -3,6 +3,7 @@
 
   [!] Required u8g2 library
   [!] bmp to xbmp image converter https://www.online-utility.org/image/convert/to/XBM
+  [!] midi to arduino tones converter https://arduinomidi.netlify.app/
 */
 
 #include <Arduino.h>
@@ -28,7 +29,7 @@ enum StateOs
     _RESTART_GAME,
     _PAUSED_GAME
 
-} STATE_OS;
+};
 
 //for screensaver
 unsigned long screenTiming{};
@@ -131,6 +132,7 @@ const int8_t PIN_STICK_1X = 29; // adc 3
 const int8_t PIN_BUTTON_STICK_0 = 6;  // gp 6
 const int8_t PIN_BUTTON_STICK_1 = 7;  // gp 7
 const int8_t PIN_BACKLIGHT_LCD = 8;   // gp 8
+const int8_t PIN_BUZZER = 9;          // gp 9
 
 /* backlight */
 void Graphics::controlBacklight(bool state)
@@ -152,7 +154,6 @@ void Graphics::controlBacklight(bool state)
 void Graphics::initializationSystem()
 {
     //setting the operating system state
-    STATE_OS = _ON;
     //setting display, contrast
     u8g2.begin();
     u8g2.setContrast(0);
@@ -752,4 +753,75 @@ void Screensaver::screensaver(bool state, uint timeUntil)
     }
   }
 }
-                                                                                                                                               
+
+/* Song engine */
+void songEngine(int arr[][2], int noteCount)
+{
+  for (int i = 0; i < noteCount; i++)
+  {
+    tone(PIN_BUZZER, arr[i][0], arr[i][1]);
+    delay(120);
+    noTone(PIN_BUZZER);
+  }
+}
+
+void Melody::songCore()
+{
+    switch (lM)
+    {
+    case listMelody::None:
+        break;
+
+    case listMelody::MakeGame:
+        songEngine(songMakeGame, 7);
+        lM = None;
+        break;
+
+    case listMelody::Bang1:
+        songEngine(songBang1, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang2:
+        songEngine(songBang2, 2);
+        lM = None;
+        break;
+
+    case listMelody::Nokia:
+        songEngine(songNokia, 13);
+        lM = None;
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Melody::song(listMelody num)
+{
+    switch (num)
+    {
+    case listMelody::None:
+        lM = None;
+        break;
+
+    case listMelody::MakeGame:
+        lM = MakeGame;
+        break;
+
+    case listMelody::Bang1:
+        lM = Bang1;
+        break;
+
+    case listMelody::Bang2:
+        lM = Bang2;
+        break;
+
+    case listMelody::Nokia:
+        lM = Nokia;
+        break;
+
+    default:
+        break;
+    }
+}
