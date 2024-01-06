@@ -48,16 +48,19 @@ void calculate()
     if ((ballY >= 63 - 4) || (ballY <= 0))
     {
         ballYspeed *= -1;
+        song.song(song.Tone2);
     }
 
     //rebound
     if (ballX <= 0)
     {
-        score2++; ballXspeed *= -1; song.song(song.Bang1);
+        score2++; ballXspeed *= -1;
+        song.song(song.Bang2);
     }
     if (ballX >= 127 - 4)
     {
-        score1++; ballXspeed *= -1; song.song(song.Bang1);
+        score1++; ballXspeed *= -1;
+        song.song(song.Bang2);
     }
 
     //rebound player 1
@@ -66,6 +69,7 @@ void calculate()
         if ((ballY >= joy.posY0) && (ballY <= joy.posY0 + 10)) // y0
         {
             ballXspeed *= -1;
+            song.song(song.Tone4);
         }
     }
     //rebound player 2
@@ -74,6 +78,7 @@ void calculate()
         if ((ballY >= joy.posY1) && (ballY <= joy.posY1 + 10)) // y1
         {
             ballXspeed *= -1;
+            song.song(song.Tone4);
         }
     }
 

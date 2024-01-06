@@ -755,9 +755,9 @@ void Screensaver::screensaver(bool state, uint timeUntil)
 }
 
 /* Song engine */
-void songEngine(int arr[][2], int noteCount)
+void songEngine(uint arr[][2], uint noteCount)
 {
-  for (int i = 0; i < noteCount; i++)
+  for (uint i = 0; i < noteCount; i++)
   {
     tone(PIN_BUZZER, arr[i][0], arr[i][1]);
     delay(120);
@@ -772,11 +772,13 @@ void Melody::songCore()
     case listMelody::None:
         break;
 
+    // Melody
     case listMelody::MakeGame:
         songEngine(songMakeGame, 7);
         lM = None;
         break;
-
+    
+    // Bang
     case listMelody::Bang1:
         songEngine(songBang1, 2);
         lM = None;
@@ -787,10 +789,49 @@ void Melody::songCore()
         lM = None;
         break;
 
-    case listMelody::Nokia:
-        songEngine(songNokia, 13);
+    case listMelody::Bang3:
+        songEngine(songBang3, 2);
         lM = None;
         break;
+
+    case listMelody::Bang4:
+        songEngine(songBang4, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang5:
+        songEngine(songBang5, 2);
+        lM = None;
+        break;
+
+    // Tone
+    case listMelody::Tone1:
+        songEngine(songTone1, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone2:
+        songEngine(songTone2, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone3:
+        songEngine(songTone3, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone4:
+        songEngine(songTone4, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone5:
+        songEngine(songTone5, 1);
+        lM = None;
+        break;
+
+    // UI
+    // --
 
     default:
         break;
@@ -804,11 +845,13 @@ void Melody::song(listMelody num)
     case listMelody::None:
         lM = None;
         break;
-
+    
+    // Melody
     case listMelody::MakeGame:
         lM = MakeGame;
         break;
 
+    // Bang
     case listMelody::Bang1:
         lM = Bang1;
         break;
@@ -817,8 +860,54 @@ void Melody::song(listMelody num)
         lM = Bang2;
         break;
 
-    case listMelody::Nokia:
-        lM = Nokia;
+    case listMelody::Bang3:
+        lM = Bang3;
+        break;
+
+    case listMelody::Bang4:
+        lM = Bang4;
+        break;
+
+    case listMelody::Bang5:
+        lM = Bang5;
+        break;
+    
+    // Tones
+    case listMelody::Tone1:
+        lM = Tone1;
+        break;
+
+    case listMelody::Tone2:
+        lM = Tone2;
+        break;
+
+    case listMelody::Tone3:
+        lM = Tone3;
+        break;
+
+    case listMelody::Tone4:
+        lM = Tone4;
+        break;
+
+    case listMelody::Tone5:
+        lM = Tone5;
+        break;
+
+    // UI
+    case listMelody::Ok:
+        lM = Ok;
+        break;
+
+    case listMelody::Cancel:
+        lM = Cancel;
+        break;
+
+    case listMelody::Error:
+        lM = Error;
+        break;
+
+    case listMelody::Click:
+        lM = Click;
         break;
 
     default:
