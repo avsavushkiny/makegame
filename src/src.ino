@@ -48,7 +48,7 @@ void calculate()
     if ((ballY >= 63 - 4) || (ballY <= 0))
     {
         ballYspeed *= -1;
-        song.song(song.Tone2);
+        song.song(song.Tone3);
     }
 
     //rebound

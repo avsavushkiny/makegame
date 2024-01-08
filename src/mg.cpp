@@ -718,11 +718,13 @@ void sleepModeText()
   {
     sleepModeTexCirculation = millis();
 
-    sleepTextX = random(0, 98);   // Sleep (5 character) --> 128 px - (5 char * 6 px)
-    sleepTextY = random(10, 64);  // 64 px - 10 px
+    //sleepTextX = random(0, 80);   // Sleep (5 character) --> 128 px - (5 char * 6 px)
+    //sleepTextY = random(10, 58);  // 64 px - 10 px
   }
-
-  _gfx.print("Sleep", sleepTextX, sleepTextY, 8, 6);
+  
+  u8g2.drawXBMP(((WIDTH_LCD - mg_l_w)/2), ((HEIGHT_LCD - mg_l_h)/2 - 7), mg_l_w, mg_l_h, mg_l_bits);
+  _gfx.print(10, "makegame 2024", 25, 50, 8, 6);
+  _gfx.print(8, "t.me/makegameconsole", 14, 50 + 8, 8, 5);
 }
 
 /* Turns off the backlight and turns on an infinite loop
