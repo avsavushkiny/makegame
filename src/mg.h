@@ -154,12 +154,66 @@ public:
 
 class Screensaver : Joystick
 {
-    private:
-        /* If joystick pressed ot moved - 0, else - 1 */
-        bool isTouched();    
-    public:
-        /* Turn off backlight and start infinite loop to pause if (is touched()) */
-        void screensaver(bool state, uint timeUntil);
+private:
+    /* If joystick pressed ot moved - 0, else - 1 */
+    bool isTouched();    
+public:
+    /* Turn off backlight and start infinite loop to pause if (is touched()) */
+    void screensaver(bool state, uint timeUntil);
+};
+
+class Melody
+{
+private:
+    int8_t BEAT = 120;
+
+    uint songMakeGame[7][2] = {{330,77}, {2637,256}, {415,791}, {523,23}, {494,860}, {1865,105}, {2459,128}};
+   
+    uint songBang1[2][2] = {{100, 100}, {100, 100}};
+    uint songBang2[2][2] = {{300, 100}, {300, 100}};
+    uint songBang3[2][2] = {{600, 100}, {600, 100}};
+    uint songBang4[2][2] = {{900, 100}, {900, 100}};
+    uint songBang5[2][2] = {{1200, 100}, {1200, 100}};
+
+    uint songTone1[1][2] = {100, 100};
+    uint songTone2[1][2] = {300, 100};
+    uint songTone3[1][2] = {600, 100};
+    uint songTone4[1][2] = {900, 100};
+    uint songTone5[1][2] = {1200, 100};
+
+    /*uint songOk[][2] = {};
+    uint songCancel[][2] = {};
+    uint songError[][2] = {};
+    uint songClick[][2] = {};*/
+public:
+    enum listMelody
+    {
+        None,     // 0
+        MakeGame, // 1
+        
+        Bang1,    // 2
+        Bang2,    // 3
+        Bang3,    // 4
+        Bang4,    // 5
+        Bang5,    // 6
+
+        Tone1,    // 7
+        Tone2,    // 8
+        Tone3,    // 9
+        Tone4,    // 10
+        Tone5,    // 11
+
+        Ok,       // 12
+        Cancel,   // 13
+        Error,    // 14
+        Click,    // 15
+    };
+
+    listMelody lM;
+
+    void songCore();
+    void song(listMelody num);
+
 };
 
 #endif

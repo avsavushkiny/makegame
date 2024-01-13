@@ -3,6 +3,7 @@
 
   [!] Required u8g2 library
   [!] bmp to xbmp image converter https://www.online-utility.org/image/convert/to/XBM
+  [!] midi to arduino tones converter https://arduinomidi.netlify.app/
 */
 
 #include <Arduino.h>
@@ -28,7 +29,7 @@ enum StateOs
     _RESTART_GAME,
     _PAUSED_GAME
 
-} STATE_OS;
+};
 
 //for screensaver
 unsigned long screenTiming{};
@@ -131,6 +132,7 @@ const int8_t PIN_STICK_1X = 29; // adc 3
 const int8_t PIN_BUTTON_STICK_0 = 6;  // gp 6
 const int8_t PIN_BUTTON_STICK_1 = 7;  // gp 7
 const int8_t PIN_BACKLIGHT_LCD = 8;   // gp 8
+const int8_t PIN_BUZZER = 9;          // gp 9
 
 /* backlight */
 void Graphics::controlBacklight(bool state)
@@ -152,7 +154,6 @@ void Graphics::controlBacklight(bool state)
 void Graphics::initializationSystem()
 {
     //setting the operating system state
-    STATE_OS = _ON;
     //setting display, contrast
     u8g2.begin();
     u8g2.setContrast(0);
@@ -717,11 +718,13 @@ void sleepModeText()
   {
     sleepModeTexCirculation = millis();
 
-    sleepTextX = random(0, 98);   // Sleep (5 character) --> 128 px - (5 char * 6 px)
-    sleepTextY = random(10, 64);  // 64 px - 10 px
+    //sleepTextX = random(0, 80);   // Sleep (5 character) --> 128 px - (5 char * 6 px)
+    //sleepTextY = random(10, 58);  // 64 px - 10 px
   }
-
-  _gfx.print("Sleep", sleepTextX, sleepTextY, 8, 6);
+  
+  u8g2.drawXBMP(((WIDTH_LCD - mg_l_w)/2), ((HEIGHT_LCD - mg_l_h)/2 - 7), mg_l_w, mg_l_h, mg_l_bits);
+  _gfx.print(10, "makegame 2024", 25, 50, 8, 6);
+  _gfx.print(8, "t.me/makegameconsole", 14, 50 + 8, 8, 5);
 }
 
 /* Turns off the backlight and turns on an infinite loop
@@ -752,4 +755,164 @@ void Screensaver::screensaver(bool state, uint timeUntil)
     }
   }
 }
-                                                                                                                                               
+
+/* Song engine */
+void songEngine(uint arr[][2], uint noteCount)
+{
+  for (uint i = 0; i < noteCount; i++)
+  {
+    tone(PIN_BUZZER, arr[i][0], arr[i][1]);
+    delay(120);
+    noTone(PIN_BUZZER);
+  }
+}
+
+void Melody::songCore()
+{
+    switch (lM)
+    {
+    case listMelody::None:
+        break;
+
+    // Melody
+    case listMelody::MakeGame:
+        songEngine(songMakeGame, 7);
+        lM = None;
+        break;
+    
+    // Bang
+    case listMelody::Bang1:
+        songEngine(songBang1, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang2:
+        songEngine(songBang2, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang3:
+        songEngine(songBang3, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang4:
+        songEngine(songBang4, 2);
+        lM = None;
+        break;
+
+    case listMelody::Bang5:
+        songEngine(songBang5, 2);
+        lM = None;
+        break;
+
+    // Tone
+    case listMelody::Tone1:
+        songEngine(songTone1, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone2:
+        songEngine(songTone2, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone3:
+        songEngine(songTone3, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone4:
+        songEngine(songTone4, 1);
+        lM = None;
+        break;
+
+    case listMelody::Tone5:
+        songEngine(songTone5, 1);
+        lM = None;
+        break;
+
+    // UI
+    // --
+
+    default:
+        break;
+    }
+}
+
+void Melody::song(listMelody num)
+{
+    switch (num)
+    {
+    case listMelody::None:
+        lM = None;
+        break;
+    
+    // Melody
+    case listMelody::MakeGame:
+        lM = MakeGame;
+        break;
+
+    // Bang
+    case listMelody::Bang1:
+        lM = Bang1;
+        break;
+
+    case listMelody::Bang2:
+        lM = Bang2;
+        break;
+
+    case listMelody::Bang3:
+        lM = Bang3;
+        break;
+
+    case listMelody::Bang4:
+        lM = Bang4;
+        break;
+
+    case listMelody::Bang5:
+        lM = Bang5;
+        break;
+    
+    // Tones
+    case listMelody::Tone1:
+        lM = Tone1;
+        break;
+
+    case listMelody::Tone2:
+        lM = Tone2;
+        break;
+
+    case listMelody::Tone3:
+        lM = Tone3;
+        break;
+
+    case listMelody::Tone4:
+        lM = Tone4;
+        break;
+
+    case listMelody::Tone5:
+        lM = Tone5;
+        break;
+
+    // UI
+    case listMelody::Ok:
+        lM = Ok;
+        break;
+
+    case listMelody::Cancel:
+        lM = Cancel;
+        break;
+
+    case listMelody::Error:
+        lM = Error;
+        break;
+
+    case listMelody::Click:
+        lM = Click;
+        break;
+
+    default:
+        break;
+    }
+}
