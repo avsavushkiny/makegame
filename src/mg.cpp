@@ -10,11 +10,11 @@
 #include "mg.h"
 
 Graphics _gfx;
+Timer _tmr;
 
 int numbers[5] = {0, 0, 0, 0, 0};
 int yy_array[5];
 
-bool time1 = true
 
 unsigned long timeX = 0;
 int numberSecretKey = 0;
@@ -653,27 +653,26 @@ void Terminal::terminal()
 
 void SecretCodeImg()
 {
-    if (millis() - timeX >= 10000)
+    if (millis() - timeX >= 5000)
     {
         timeX = millis();
         for (int i = 0; i < 5; i++)
         {
             numbers[i] = random(1, 10);
-        }
-
-        for (int i = 0; i < 5; i++)
+        } 
+        /*for (int i = 0; i < 5; i++)
         {
             yy_array[i] = random(20, 50);
-        }
+        }*/
     }    
-    int xx{7};
+    /*int xx{7};
     for (int i = 0; i < 5; i++)
     {
         _gfx.print(numbers[i], xx, yy_array[i]);
         u8g2.drawFrame(xx-5, yy_array[i]-10, 25, 25);
 
         xx += 25;
-    }
+    }*/
     numberSecretKey = numbers[0]*10000 + numbers[1]*1000 + numbers[2]*100 + numbers[3]*10 + numbers[4];
     
     Serial.println(numberSecretKey);
@@ -683,19 +682,12 @@ void SecretCodeImg()
 
 void SecretKey::secretKey()
 {
-    timeX = 10000;
-    while (time1){
+    timeX = 5000;
+    int i {1};
+    while (i < 10){
         _gfx.render(SecretCodeImg);
+        i++;
     }
-    if (millis() - timeX >= 30000)
-    {
-        timeX = millis();
-        time1 = false;
-        break;
-    }
-    
-
-
         //_gfx.print(numberSecretKey, 5, 10); delay(5000);
         //Serial.println(numberSecretKey); delay(30000);
     
