@@ -15,7 +15,9 @@ Timer _tmr;
 int numbers[5] = {0, 0, 0, 0, 0};
 int yy_array[5];
 
-
+bool time1 = true;
+unsigned long sectime;  
+unsigned long timeY = 0;
 unsigned long timeX = 0;
 int numberSecretKey = 0;
 
@@ -650,6 +652,17 @@ void Terminal::terminal()
     }
   }
 }
+void SecretCodetime()
+{
+    while(true)
+    {
+    if (millis() - timeY >= 60000)
+    {
+        timeY = millis();
+        time1 = false;
+    }
+    }
+}
 
 void SecretCodeImg()
 {
@@ -683,12 +696,18 @@ void SecretCodeImg()
 void SecretKey::secretKey()
 {
     timeX = 5000;
-    int i {1};
-    while (i < 10){
+    timeY = 1000;
+    while (time1){
         _gfx.render(SecretCodeImg);
-        i++;
-    }
-        //_gfx.print(numberSecretKey, 5, 10); delay(5000);
-        //Serial.println(numberSecretKey); delay(30000);
-    
+        _gfx.render(SecretCodetime);
+    }    
+
 }
+
+
+
+
+
+
+
+
