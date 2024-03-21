@@ -6,13 +6,15 @@
 */
 
 #include "mg.h"
+#include "Pong.ino"
+#include "AliensInvaders.ino"
 
 Joystick joy;
 Graphics gfx;
 Interface inf;
 Button btn1, btn2, btn3;
 Cursor crs1;
-Shortcut iconSapper, iconGears;
+Shortcut iconSpaceInvaders, iconPong;
 Screensaver scr;
 Terminal trm;
 
@@ -28,124 +30,48 @@ const uint8_t sapper_bits[] = {
   0x40, 0xFF, 0xFF, 0x02, 0xC0, 0xFF, 0xFF, 0x03, 0x80, 0xF1, 0x8F, 0x01, 
   0x00, 0xC0, 0x02, 0x00, 0x00, 0xC0, 0x02, 0x00, 0x00, 0x80, 0x01, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+static uint8_t spaceInvaders_bits[] = { //w32 h32
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0xE0, 0x00, 0x00, 0x07, 0xE0, 0x00, 
+  0x00, 0x1F, 0xF8, 0x00, 0x00, 0x1C, 0x38, 0x00, 0x00, 0xFF, 0xFF, 0x00, 
+  0x00, 0xFF, 0xFF, 0x00, 0x00, 0xE3, 0xC7, 0x00, 0xC0, 0xE3, 0xC7, 0x03, 
+  0xC0, 0xE3, 0xC7, 0x03, 0xF0, 0xFF, 0xFF, 0x0F, 0xF0, 0xFF, 0xFF, 0x0F, 
+  0xF0, 0xFF, 0xFF, 0x0F, 0x70, 0xFF, 0xFF, 0x0E, 0x70, 0xFF, 0xFF, 0x0E, 
+  0x70, 0x07, 0xE0, 0x0E, 0x70, 0x7F, 0xFE, 0x0E, 0x00, 0x7C, 0x3E, 0x00, 
+  0x00, 0x7C, 0x3E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
 
-int8_t ballX{1}, ballY{1}, ballXspeed{1}, ballYspeed{1}, score1{}, score2{};
 
-void drawField()
+
+void start_pong_game()
 {
-    u8g2.drawHLine(0, 0, 128);
-    u8g2.drawHLine(0, 63, 128);
-    for (int i = 0; i <= 64; i+=6)
-    {
-        u8g2.drawVLine(64, i, 4);
-    }
+  stateGame
 }
 
-void calculate()
+void start_aliens_invaders_game()
 {
-    //rebound
-    if ((ballY >= 63 - 4) || (ballY <= 0))
-    {
-        ballYspeed *= -1;
-    }
-
-    //rebound
-    if (ballX <= 0)
-    {
-        score2++; ballXspeed *= -1;
-    }
-    if (ballX >= 127 - 4)
-    {
-        score1++; ballXspeed *= -1;
-    }
-
-    //rebound player 1
-    if ((ballX >= 10) && (ballX <= 10 + 4))
-    {
-        if ((ballY >= joy.posY0) && (ballY <= joy.posY0 + 10)) // y0
-        {
-            ballXspeed *= -1;
-        }
-    }
-    //rebound player 2
-    if ((ballX >= 113 - 4) && (ballX <= 113 + 4))
-    {
-        if ((ballY >= joy.posY1) && (ballY <= joy.posY1 + 10)) // y1
-        {
-            ballXspeed *= -1;
-        }
-    }
-
-    //gfx.print((String)sys.s0x + " " + (String)sys.s0y, 30, 30); //debug
+    
 }
 
-void drawRackets()
+void desctop()
 {
     joy.updatePositionXY();
-    u8g2.drawFrame(10, joy.posY0 , 4, 10); //y0
-    u8g2.drawFrame(113, joy.posY1, 4, 10); //y1
-    calculate();
-}
-
-void drawBall()
-{
-    ballX+=ballXspeed; ballY+=ballYspeed;
-    u8g2.drawBox(ballX, ballY, 4, 4);
-}
-
-void drawScore()
-{
-    String score1st{score1}, score2st{score2};
-    gfx.print(score1st, 20, 10);
-    gfx.print(score2st, 101, 10);
-}
-
-void gamePong()
-{
-    drawField(); drawRackets(); drawBall(); drawScore(); 
-}
-
-void clickBtn1()
-{
-    inf.message("You clicked on\nthe Stick 0 button\n:D", 1500);
-}
-
-void clickBtn2()
-{
-    inf.message("Okay :((", 1500);
-}
-
-void helloBro()
-{
-    joy.updatePositionXY();
-    btn1.button("OK", 5, 45, clickBtn1, joy.posX0, joy.posY0); //0
-    iconSapper.shortcut(sapper_bits, 0, 0, clickBtn1, joy.posX0, joy.posY0); //0
-    
-    gfx.print(5, "hello world user!", 45, 10, 8, 4);
-    gfx.print(6, "hello world user!", 45, 20, 8, 5);
-    gfx.print(7, "hello world user!", 45, 30, 8, 5);
-    gfx.print(8, "hello world user!", 45, 40, 8, 6);
-    gfx.print(10, "hello world user!", 45, 50, 8, 6);
-    
+    //gfx.print("Move the cursor\nto the Pong game\nshortcut", 5, 10, 8, 5);
+    iconPong.shortcut(sapper_bits, 5, 30, !!!gamePong!!!, joy.posX0, joy.posY0);
+    iconSpaceInvaders.shortcut(spaceInvaders_bits, 40, 30, !!!gameSpaceInvaders!!!, joy.posX0, joy.posY0);
     crs1.cursor(true, joy.posX0, joy.posY0);
 }
 
+//------------------------------------------------------------------
 void setup()
 {
     gfx.initializationSystem();
 }
 
-void setup1()
-{
-}
-
 void loop()
 {
-    gfx.render(gamePong);
-    scr.screensaver(true, 10000);
-}
-
-void loop1()
-{ 
-    trm.terminal();
+    gfx.render(desctop);
+    //scr.screensaver(true, 10000);
 }
