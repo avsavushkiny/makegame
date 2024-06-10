@@ -6,8 +6,8 @@
 */
 
 #include "mg.h"
-#include "Pong.ino"
-#include "AliensInvaders.ino"
+#include "Pong.h"
+#include "AliensInvaders.h"
 
 Joystick joy;
 Graphics gfx;
@@ -59,8 +59,8 @@ void desctop()
 {
     joy.updatePositionXY();
     //gfx.print("Move the cursor\nto the Pong game\nshortcut", 5, 10, 8, 5);
-    iconPong.shortcut(sapper_bits, 5, 30, !!!gamePong!!!, joy.posX0, joy.posY0);
-    iconSpaceInvaders.shortcut(spaceInvaders_bits, 40, 30, !!!gameSpaceInvaders!!!, joy.posX0, joy.posY0);
+    iconPong.shortcut(sapper_bits, 5, 30, gamePong, joy.posX0, joy.posY0);
+    iconSpaceInvaders.shortcut(spaceInvaders_bits, 40, 30, gameSpaceInvaders, joy.posX0, joy.posY0);
     crs1.cursor(true, joy.posX0, joy.posY0);
 }
 
