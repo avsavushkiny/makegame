@@ -401,7 +401,7 @@ bool Shortcut::shortcut(const uint8_t *bitMap, uint8_t x, uint8_t y, void (*f)(v
   return false;
 }
 
-/* Joystic */
+/* Joystick */
 /* system button control */
 bool Joystick::pressKeyA()
 {
@@ -430,19 +430,27 @@ int Joystick::calculatePositionY0() // 0y
 
     if ((RAW_DATA_Y0 < (DEF_RES_Y0 - 200)) && (RAW_DATA_Y0 > (DEF_RES_Y0 - 1100)))
     {
-        return COOR_Y0 = COOR_Y0 - 1;
+        COOR_Y0 -= 1;
+        if (COOR_Y0 <= 0) COOR_Y0 = 0;
+        return COOR_Y0;
     }
     else if (RAW_DATA_Y0 < (DEF_RES_Y0 - 1100))
     {
-        return COOR_Y0 = COOR_Y0 - 2;
+        COOR_Y0 -= 2;
+        if (COOR_Y0 <= 0) COOR_Y0 = 0;
+        return COOR_Y0;
     }
     else if ((RAW_DATA_Y0 > (DEF_RES_Y0 + 200)) && (RAW_DATA_Y0 < (DEF_RES_Y0 + 1100)))
     {
-        return COOR_Y0 = COOR_Y0 + 1;
+        COOR_Y0 += 1;
+        if (COOR_Y0 >= 63) COOR_Y0 = 63;
+        return COOR_Y0;
     }
     else if (RAW_DATA_Y0 > (DEF_RES_Y0 + 1100))
     {
-        return COOR_Y0 = COOR_Y0 + 2;
+        COOR_Y0 += 2;
+        if (COOR_Y0 >= 63) COOR_Y0 = 63;
+        return COOR_Y0;
     }
     else
         return COOR_Y0;
@@ -454,19 +462,27 @@ int Joystick::calculatePositionY1() // 1y
 
     if ((RAW_DATA_Y1 < (DEF_RES_Y1 - 200)) && (RAW_DATA_Y1 > (DEF_RES_Y1 - 1100)))
     {
-        return COOR_Y1 = COOR_Y1 - 1;
+        COOR_Y1 -= 1;
+        if(COOR_Y1 <= 0) COOR_Y1 = 0;
+        return COOR_Y1;
     }
     else if (RAW_DATA_Y1 < (DEF_RES_Y1 - 1100))
     {
-        return COOR_Y1 = COOR_Y1 - 2;
+        COOR_Y1 -= 2;
+        if(COOR_Y1 <= 0) COOR_Y1 = 0;
+        return COOR_Y1;
     }
     else if ((RAW_DATA_Y1 > (DEF_RES_Y1 + 200)) && (RAW_DATA_Y1 < (DEF_RES_Y1 + 1100)))
     {
-        return COOR_Y1 = COOR_Y1 + 1;
+        COOR_Y1 += 1;
+        if(COOR_Y1 >= 63) COOR_Y1 = 63;
+        return COOR_Y1;
     }
     else if (RAW_DATA_Y1 > (DEF_RES_Y1 + 1100))
     {
-        return COOR_Y1 = COOR_Y1 + 2;
+        COOR_Y1 += 2;
+        if(COOR_Y1 >= 63) COOR_Y1 = 63;
+        return COOR_Y1;
     }
     else
         return COOR_Y1;
@@ -478,19 +494,27 @@ int Joystick::calculatePositionX0() // 0x
 
     if ((RAW_DATA_X0 < (DEF_RES_X0 - 200)) && (RAW_DATA_X0 > (DEF_RES_X0 - 1100)))
     {
-        return COOR_X0 = COOR_X0 + 1;
+        COOR_X0 += 1;
+        if(COOR_X0 >= 127) COOR_X0 = 127;
+        return COOR_X0;
     }
     else if (RAW_DATA_X0 < (DEF_RES_X0 - 1100))
     {
-        return COOR_X0 = COOR_X0 + 2;
+        COOR_X0 += 2;
+        if(COOR_X0 >= 127) COOR_X0 = 127;
+        return COOR_X0;
     }
     else if ((RAW_DATA_X0 > (DEF_RES_X0 + 200)) && (RAW_DATA_X0 < (DEF_RES_X0 + 1100)))
     {
-        return COOR_X0 = COOR_X0 - 1;
+        COOR_X0 -= 1;
+        if(COOR_X0 >= 0) COOR_X0 = 0;
+        return COOR_X0;
     }
     else if (RAW_DATA_X0 > (DEF_RES_X0 + 1100))
     {
-        return COOR_X0 = COOR_X0 - 2;
+        COOR_X0 -= 2;
+        if(COOR_X0 >= 0) COOR_X0 = 0;
+        return COOR_X0;
     }
     else
         return COOR_X0;
@@ -502,19 +526,27 @@ int Joystick::calculatePositionX1() // 1x
 
     if ((RAW_DATA_X1 < (DEF_RES_X1 - 200)) && (RAW_DATA_X1 > (DEF_RES_X1 - 1100)))
     {
-        return COOR_X1 = COOR_X1 + 1;
+        COOR_X1 += 1;
+        if(COOR_X0 >= 127) COOR_X0 = 127;
+        return COOR_X1;
     }
     else if (RAW_DATA_X1 < (DEF_RES_X1 - 1100))
     {
-        return COOR_X1 = COOR_X1 + 2;
+        COOR_X1 += 2;
+        if(COOR_X0 >= 127) COOR_X0 = 127;
+        return COOR_X1;
     }
     else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
     {
-        return COOR_X1 = COOR_X1 - 1;
+        COOR_X0 -= 1;
+        if(COOR_X0 >= 0) COOR_X0 = 0;
+        return COOR_X0;
     }
     else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
     {
-        return COOR_X1 = COOR_X1 - 2;
+        COOR_X0 -= 2;
+        if(COOR_X0 >= 0) COOR_X0 = 0;
+        return COOR_X0;
     }
     else
         return COOR_X1;
