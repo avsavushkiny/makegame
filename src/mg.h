@@ -44,6 +44,12 @@ public:
     int calculatePositionX1();
     int calculatePositionY1();
 
+    /* Contains the coordinates of the Sticks along the axes. */
+    int calculatePositionX0(short min, short max);
+    int calculatePositionY0(short min, short max);
+    int calculatePositionX1(short min, short max);
+    int calculatePositionY1(short min, short max);
+
     /* Variables for storing coordinates from the axes of the Sticks. */
     int posX0{}, posY0{}, posX1{}, posY1{};
     
@@ -53,6 +59,8 @@ public:
 
     /* Updating Stick coordinates. */
     void updatePositionXY();
+    /* Updating Stick coordinates in parameters */
+    void updatePositionXY(short min, short max);
 
     /* Counts objects by +1, normally 0 */
     int8_t calculateIndexY0();
