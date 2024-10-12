@@ -691,12 +691,32 @@ void Joystick::updatePositionXY()
     posY1 = calculatePositionY1();
 }
 
-void Joystick::updatePositionXY(short min, short max)
+void Joystick::updatePositionXY(short min, short max) //in all Stick 2 parameters
 {
     posX0 = calculatePositionX0(min, max);
     posX1 = calculatePositionX1(min, max);
     posY0 = calculatePositionY0(min, max);
     posY1 = calculatePositionY1(min, max);
+}
+
+void Joystick::updatePositionXY(short minX, short maxX, short minY, short maxY) //in all Sticks 4 parameters
+{
+    posX0 = calculatePositionX0(minX, maxX);
+    posX1 = calculatePositionX1(minX, maxX);
+    posY0 = calculatePositionY0(minY, maxY);
+    posY1 = calculatePositionY1(minY, maxY);
+}
+
+void Joystick::updatePositionX0Y0(short minX, short maxX, short minY, short maxY) //in Stick 0
+{
+    posX0 = calculatePositionX0(minX, maxX);
+    posY0 = calculatePositionY0(minY, maxY);
+}
+
+void Joystick::updatePositionX1Y1(short minX, short maxX, short minY, short maxY) //in Stick 1
+{
+    posX1 = calculatePositionX1(minX, maxX);
+    posY1 = calculatePositionY1(minY, maxY);
 }
 
 /* Calculate position index */

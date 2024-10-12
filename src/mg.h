@@ -61,6 +61,12 @@ public:
     void updatePositionXY();
     /* Updating Stick coordinates in parameters */
     void updatePositionXY(short min, short max);
+    /* Updating Stick coordinates in parameters */
+    void updatePositionXY(short minX, short maxX, short minY, short maxY);
+    /* Updating Stick coordinates in parameters */
+    void updatePositionX0Y0(short minX, short maxX, short minY, short maxY);
+    /* Updating Stick coordinates in parameters */
+    void updatePositionX1Y1(short minX, short maxX, short minY, short maxY);
 
     /* Counts objects by +1, normally 0 */
     int8_t calculateIndexY0();
