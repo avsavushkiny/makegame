@@ -23,7 +23,7 @@ void DrawField() {
   }
 }
 void DrawRackets() {
-  joy.updatePositionX0Y0(0, 53, 0, 53);
+  joy.updatePositionX0Y0(0, 53, 1, 53);
   u8g2.drawFrame(joy.posX0, joy.posY0, 5, 10);
 
   //posY00 = joy.posY0;   posY11 = joy.posY1;
@@ -31,7 +31,7 @@ void DrawRackets() {
   //if (joy.posY0 >= 54) { posY00 = 54; }
   //if (joy.posY1 >= 54) { posY11 = 54; }
 
-  joy.updatePositionX1Y1(73, 127, 0, 53);
+  joy.updatePositionX1Y1(73, 122, 1, 53);
   u8g2.drawFrame(joy.posX1, joy.posY1, 5, 10);
 }
 
