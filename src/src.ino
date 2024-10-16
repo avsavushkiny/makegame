@@ -12,8 +12,8 @@ int yBall{31};
 int xx = 2;
 int yy = 1;
 
-int posY00;  
-int posY11;
+int posX00;  
+int posX11;
 
 void DrawField() {
   u8g2.drawHLine(0, 0, 128);
@@ -22,14 +22,16 @@ void DrawField() {
     u8g2.drawVLine(64, a, 4);
   }
 }
+
 void DrawRackets() {
+    posX00 = joy.posX0;   posX11 = joy.posX1;
+
+  if (joy.posX0 >= 53) { posX00 = 0; }
+  if (joy.posX1 >= 73) { posX11 = 122; }
   joy.updatePositionX0Y0(0, 53, 1, 53);
   u8g2.drawFrame(joy.posX0, joy.posY0, 5, 10);
 
-  //posY00 = joy.posY0;   posY11 = joy.posY1;
 
-  //if (joy.posY0 >= 54) { posY00 = 54; }
-  //if (joy.posY1 >= 54) { posY11 = 54; }
 
   joy.updatePositionX1Y1(73, 122, 1, 53);
   u8g2.drawFrame(joy.posX1, joy.posY1, 5, 10);
@@ -74,7 +76,7 @@ void Calculation()
         score1++;
     }
 
-if ((xBall >= 6) && (xBall <= 14))
+/*if ((xBall >= 6) && (xBall <= 14))
     {
         if ((yBall >= joy.posY0) && (yBall <= joy.posY0 + 10))
         {
@@ -87,7 +89,25 @@ if ((xBall >= 6) && (xBall <= 14))
         {
             xx = -2;
         }
+    }*/
+  if ((xBall >= joy.posX0) && (xBall <= joy.posX0 + 5))
+  {
+    if((yBall >= joy.posY0) && (yBall <= joy.posY0 + 10))
+    {
+      xx = 2;
     }
+  }
+    if ((xBall >= joy.posX1) && (xBall <= joy.posX1 + 4))
+  {
+    if((yBall >= joy.posY1) && (yBall <= joy.posY1 + 10))
+    {
+      xx = -2;
+    }
+  }
+
+
+
+
 }
 void gamePong() 
 {
