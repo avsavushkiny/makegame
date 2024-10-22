@@ -28,10 +28,9 @@ void DrawRackets() {
 
   if (joy.posX0 >= 53) { posX00 = 0; }
   if (joy.posX1 >= 73) { posX11 = 122; }
+
   joy.updatePositionX0Y0(0, 53, 1, 53);
   u8g2.drawFrame(joy.posX0, joy.posY0, 5, 10);
-
-
 
   joy.updatePositionX1Y1(73, 122, 1, 53);
   u8g2.drawFrame(joy.posX1, joy.posY1, 5, 10);
@@ -56,6 +55,8 @@ if(score2 == 5)
 {
   u8g2.clearBuffer();
   gfx.print("player 2 Win!", 30, 31); 
+  delay(1500);
+  
 }
  
 }
@@ -97,16 +98,13 @@ void Calculation()
       xx = 2;
     }
   }
-    if ((xBall >= joy.posX1) && (xBall <= joy.posX1 + 4))
+    if ((xBall + 3 >= joy.posX1) && (xBall <= joy.posX1))
   {
     if((yBall >= joy.posY1) && (yBall <= joy.posY1 + 10))
     {
       xx = -2;
     }
   }
-
-
-
 
 }
 void gamePong() 
