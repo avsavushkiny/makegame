@@ -1,4 +1,4 @@
-#include <mg.h>
+#include "mg.h"
 
 Joystick joy;
 Graphics gfx;
@@ -276,7 +276,8 @@ void gameSpaceInvaders()
     {
         ctrl_next = t + CTRL_TO;
 
-        joy.updatePositionXY();
+            joy.updatePositionX0Y0(0, 124, 0, 64);
+
         player.coords[X] = joy.posX0;
         player.coords[Y] = 52;
 
@@ -354,7 +355,8 @@ const uint8_t sapper_bits[] = {
   0x00, 0xC0, 0x02, 0x00, 0x00, 0xC0, 0x02, 0x00, 0x00, 0x80, 0x01, 0x00, 
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
 
-int8_t ballX{1}, ballY{1}, ballXspeed{1}, ballYspeed{1}, score1{}, score2{};
+int8_t xBall{63}, yBall{31}, xx = 2, yy = 1, score1{}, score2{}, posX00, posX11; 
+
 
 void drawField()
 {
@@ -365,43 +367,39 @@ void drawField()
         u8g2.drawVLine(64, i, 4);
     }
 }
+void DrawBall() {
+  u8g2.drawBox(xBall, yBall, 4, 4); xBall += xx; yBall += yy;
+  if(xBall >= 125) xx = -2;
+  if(xBall <= 1) xx = 2;
+  if(yBall >= 61) yy = -1;
+  if(yBall <= 1) yy = 1;
+}
 
-void calculate()
+void Calculation()
 {
-    //rebound
-    if ((ballY >= 63 - 4) || (ballY <= 0))
+    if (xBall <= 1)
     {
-        ballYspeed *= -1;
+        score2++;
+    }
+    if (xBall >= 125)
+    {
+        score1++;
     }
 
-    //rebound
-    if (ballX <= 0)
+  if ((xBall >= joy.posX0) && (xBall <= joy.posX0 + 5))
+  {
+    if((yBall >= joy.posY0) && (yBall <= joy.posY0 + 10))
     {
-        score2++; ballXspeed *= -1;
+      xx = 2;
     }
-    if (ballX >= 127 - 4)
+  }
+    if ((xBall + 3 >= joy.posX1) && (xBall <= joy.posX1))
+  {
+    if((yBall >= joy.posY1) && (yBall <= joy.posY1 + 10))
     {
-        score1++; ballXspeed *= -1;
+      xx = -2;
     }
-
-    //rebound player 1
-    if ((ballX >= 10) && (ballX <= 10 + 4))
-    {
-        if ((ballY >= joy.posY0) && (ballY <= joy.posY0 + 10)) // y0
-        {
-            ballXspeed *= -1;
-        }
-    }
-    //rebound player 2
-    if ((ballX >= 113 - 4) && (ballX <= 113 + 4))
-    {
-        if ((ballY >= joy.posY1) && (ballY <= joy.posY1 + 10)) // y1
-        {
-            ballXspeed *= -1;
-        }
-    }
-
-    //exit game
+  }
     if ((score1 == 5) || (score2 == 5))
     {
       stateGame1 = false;
@@ -409,34 +407,32 @@ void calculate()
       score1 = 0; score2 = 0;
     }
 
-    //gfx.print((String)sys.s0x + " " + (String)sys.s0y, 30, 30);
-}
 
-void drawRackets()
-{
-    joy.updatePositionXY();
-    u8g2.drawFrame(10, joy.posY0 , 4, 10); //y0
-    u8g2.drawFrame(113, joy.posY1, 4, 10); //y1
-    calculate();
 }
-
-void drawBall()
-{
-    ballX+=ballXspeed; ballY+=ballYspeed;
-    u8g2.drawBox(ballX, ballY, 4, 4);
-}
-
 void drawScore()
 {
     String score1st{score1}, score2st{score2};
     gfx.print(score1st, 20, 10);
     gfx.print(score2st, 101, 10);
 }
+void DrawRackets() {
+    posX00 = joy.posX0;   posX11 = joy.posX1;
+
+  if (joy.posX0 >= 53) { posX00 = 0; }
+  if (joy.posX1 >= 73) { posX11 = 122; }
+
+  joy.updatePositionX0Y0(0, 53, 1, 53);
+  u8g2.drawFrame(joy.posX0, joy.posY0, 5, 10);
+
+  joy.updatePositionX1Y1(73, 122, 1, 53);
+  u8g2.drawFrame(joy.posX1, joy.posY1, 5, 10);
+}
+
 
 void gamePong()
 {
     stateGame1 = true;
-    drawField(); drawRackets(); drawBall(); drawScore();
+    drawField(); DrawRackets(); Calculation(); DrawBall(); drawScore();
 }
 
 void interfaceBoard()
@@ -448,7 +444,7 @@ void interfaceBoard()
 
 void desctop()
 {
-    joy.updatePositionXY();
+    joy.updatePositionX0Y0(0, 127, 0, 64);
 
     gfx.print("Move the cursor\nto the Pong game\nshortcut", 5, 10, 8, 5);
     iconSapper.shortcut(sapper_bits, 5, 30, gamePong, joy.posX0, joy.posY0);

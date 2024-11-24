@@ -637,13 +637,13 @@ int Joystick::calculatePositionX0(short min, short max) // 0x
     else if ((RAW_DATA_X0 > (DEF_RES_X0 + 200)) && (RAW_DATA_X0 < (DEF_RES_X0 + 1100)))
     {
         COOR_X0 -= 1;
-        if(COOR_X0 >= min) COOR_X0 = min;
+        if(COOR_X0 <= min) COOR_X0 = min;
         return COOR_X0;
     }
     else if (RAW_DATA_X0 > (DEF_RES_X0 + 1100))
     {
         COOR_X0 -= 2;
-        if(COOR_X0 >= min) COOR_X0 = min;
+        if(COOR_X0 <= min) COOR_X0 = min;
         return COOR_X0;
     }
     else
@@ -669,13 +669,13 @@ int Joystick::calculatePositionX1(short min, short max) // 1x
     else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
     {
         COOR_X1 -= 1;
-        if(COOR_X1 >= min) COOR_X1 = min;
+        if(COOR_X1 <= min) COOR_X1 = min;
         return COOR_X1;
     }
     else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
     {
         COOR_X1 -= 2;
-        if(COOR_X1 >= min) COOR_X1 = min;
+        if(COOR_X1 <= min) COOR_X1 = min;
         return COOR_X1;
     }
     else
@@ -707,16 +707,16 @@ void Joystick::updatePositionXY(short minX, short maxX, short minY, short maxY) 
     posY1 = calculatePositionY1(minY, maxY);
 }
 
-void Joystick::updatePositionX0Y0(short minX, short maxX, short minY, short maxY) //in Stick 0
+void Joystick::updatePositionX0Y0(short minX0, short maxX0, short minY0, short maxY0) //in Stick 0
 {
-    posX0 = calculatePositionX0(minX, maxX);
-    posY0 = calculatePositionY0(minY, maxY);
+    posX0 = calculatePositionX0(minX0, maxX0);
+    posY0 = calculatePositionY0(minY0, maxY0);
 }
 
-void Joystick::updatePositionX1Y1(short minX, short maxX, short minY, short maxY) //in Stick 1
+void Joystick::updatePositionX1Y1(short minX1, short maxX1, short minY1, short maxY1) //in Stick 1
 {
-    posX1 = calculatePositionX1(minX, maxX);
-    posY1 = calculatePositionY1(minY, maxY);
+    posX1 = calculatePositionX1(minX1, maxX1);
+    posY1 = calculatePositionY1(minY1, maxY1);
 }
 
 /* Calculate position index */
