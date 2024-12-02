@@ -66,14 +66,17 @@ schoolBoy sb[sizeof(arrSchoolboy)/sizeof(arrSchoolboy[1])];
 int countSchoolboy = sizeof(arrSchoolboy)/sizeof(arrSchoolboy[1]);
 int countArrMove = sizeof(arrMove)/sizeof(arrMove[1]);
 
+bool flagSetupGameSchoolboy = false;
 void setupGames()
 {
-    int i{};
-    for (int a = 0; a <= countSchoolboy; a++)
+    if (flagSetupGameSchoolboy == false)
     {
-        sb[a].numberSchoolboy = a;   // определяем ребенка
-        sb[a].numberMove = random(0, countArrMove + 1); // определяем для детей действия
-        sb[a].state = false;         // все дети не прошли, пока что
+        for (int a = 0; a <= countSchoolboy; a++)
+        {
+            sb[a].numberSchoolboy = a;                      // определяем ребенка
+            sb[a].numberMove = random(0, countArrMove + 1); // определяем для детей действия
+            sb[a].state = false;                            // все дети не прошли, пока что
+        }
     }
 }
 
@@ -87,14 +90,6 @@ void gamesS()
     }
 }
 
-int ii{};
-void button()
-{
-    if (joy.pressKeyA() == true)
-    {
-        ii = ii + 1;
-    }
-}
 
 void games()
 {
@@ -103,5 +98,6 @@ void games()
 
 void gameSchoolboy()
 {
+    setupGames();
 
 }
