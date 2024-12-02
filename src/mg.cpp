@@ -314,6 +314,36 @@ bool Button::button(String text, uint8_t x, uint8_t y, void (*f)(void), int xCur
   
   return false;
 }
+/* The button return value True or False */
+bool Button::button(String text, uint8_t x, uint8_t y, int xCursor, int yCursor)
+{
+  uint8_t sizeText = text.length();
+
+  if ((xCursor >= x && xCursor <= (x + (sizeText * 5) + 4)) && (yCursor >= y - 8 && yCursor <= y + 2))
+  {
+    u8g2.setDrawColor(1);
+    u8g2.drawRBox(x, y - 8, (sizeText * 5) + 5, 10, 2);
+
+    if (Joystick::pressKeyA() == true)
+    {
+      return true;
+    }
+  }
+  else
+  {
+    u8g2.setDrawColor(1);
+    u8g2.drawRFrame(x, y - 8, (sizeText * 5) + 5, 10, 2);
+  }
+
+  u8g2.setCursor(x + 3, y);
+  u8g2.setFont(u8g2_font_profont10_mr);
+  u8g2.setFontMode(1);
+  u8g2.setDrawColor(2);
+  u8g2.print(text);
+  u8g2.setFontMode(0);
+  
+  return false;
+}
 
 /* shortcut */
 bool Shortcut::shortcut(const uint8_t *bitMap, uint8_t x, uint8_t y, void (*f)(void), int xCursor, int yCursor)
@@ -620,136 +650,6 @@ int Joystick::calculatePositionX1(short min, short max) // 1x
         return COOR_X1;
 }
 
-//new
-/* calculate Stick position */
-int Joystick::calculatePositionY0(short min, short max) // 0y
-{
-    RAW_DATA_Y0 = analogRead(PIN_STICK_0Y);
-
-    if ((RAW_DATA_Y0 < (DEF_RES_Y0 - 200)) && (RAW_DATA_Y0 > (DEF_RES_Y0 - 1100)))
-    {
-        COOR_Y0 -= 1;
-        if (COOR_Y0 <= min) COOR_Y0 = min;
-        return COOR_Y0;
-    }
-    else if (RAW_DATA_Y0 < (DEF_RES_Y0 - 1100))
-    {
-        COOR_Y0 -= 2;
-        if (COOR_Y0 <= min) COOR_Y0 = min;
-        return COOR_Y0;
-    }
-    else if ((RAW_DATA_Y0 > (DEF_RES_Y0 + 200)) && (RAW_DATA_Y0 < (DEF_RES_Y0 + 1100)))
-    {
-        COOR_Y0 += 1;
-        if (COOR_Y0 >= max) COOR_Y0 = max;
-        return COOR_Y0;
-    }
-    else if (RAW_DATA_Y0 > (DEF_RES_Y0 + 1100))
-    {
-        COOR_Y0 += 2;
-        if (COOR_Y0 >= max) COOR_Y0 = max;
-        return COOR_Y0;
-    }
-    else
-        return COOR_Y0;
-}
-
-int Joystick::calculatePositionY1(short min, short max) // 1y
-{
-    RAW_DATA_Y1 = analogRead(PIN_STICK_1Y);
-
-    if ((RAW_DATA_Y1 < (DEF_RES_Y1 - 200)) && (RAW_DATA_Y1 > (DEF_RES_Y1 - 1100)))
-    {
-        COOR_Y1 -= 1;
-        if(COOR_Y1 <= min) COOR_Y1 = min;
-        return COOR_Y1;
-    }
-    else if (RAW_DATA_Y1 < (DEF_RES_Y1 - 1100))
-    {
-        COOR_Y1 -= 2;
-        if(COOR_Y1 <= min) COOR_Y1 = min;
-        return COOR_Y1;
-    }
-    else if ((RAW_DATA_Y1 > (DEF_RES_Y1 + 200)) && (RAW_DATA_Y1 < (DEF_RES_Y1 + 1100)))
-    {
-        COOR_Y1 += 1;
-        if(COOR_Y1 >= max) COOR_Y1 = max;
-        return COOR_Y1;
-    }
-    else if (RAW_DATA_Y1 > (DEF_RES_Y1 + 1100))
-    {
-        COOR_Y1 += 2;
-        if(COOR_Y1 >= max) COOR_Y1 = max;
-        return COOR_Y1;
-    }
-    else
-        return COOR_Y1;
-}
-
-int Joystick::calculatePositionX0(short min, short max) // 0x
-{
-    RAW_DATA_X0 = analogRead(PIN_STICK_0X);
-
-    if ((RAW_DATA_X0 < (DEF_RES_X0 - 200)) && (RAW_DATA_X0 > (DEF_RES_X0 - 1100)))
-    {
-        COOR_X0 += 1;
-        if(COOR_X0 >= max) COOR_X0 = max;
-        return COOR_X0;
-    }
-    else if (RAW_DATA_X0 < (DEF_RES_X0 - 1100))
-    {
-        COOR_X0 += 2;
-        if(COOR_X0 >= max) COOR_X0 = max;
-        return COOR_X0;
-    }
-    else if ((RAW_DATA_X0 > (DEF_RES_X0 + 200)) && (RAW_DATA_X0 < (DEF_RES_X0 + 1100)))
-    {
-        COOR_X0 -= 1;
-        if(COOR_X0 >= min) COOR_X0 = min;
-        return COOR_X0;
-    }
-    else if (RAW_DATA_X0 > (DEF_RES_X0 + 1100))
-    {
-        COOR_X0 -= 2;
-        if(COOR_X0 >= min) COOR_X0 = min;
-        return COOR_X0;
-    }
-    else
-        return COOR_X0;
-}
-
-int Joystick::calculatePositionX1(short min, short max) // 1x
-{
-    RAW_DATA_X1 = analogRead(PIN_STICK_1X);
-
-    if ((RAW_DATA_X1 < (DEF_RES_X1 - 200)) && (RAW_DATA_X1 > (DEF_RES_X1 - 1100)))
-    {
-        COOR_X1 += 1;
-        if(COOR_X1 >= max) COOR_X1 = max;
-        return COOR_X1;
-    }
-    else if (RAW_DATA_X1 < (DEF_RES_X1 - 1100))
-    {
-        COOR_X1 += 2;
-        if(COOR_X1 >= max) COOR_X1 = max;
-        return COOR_X1;
-    }
-    else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
-    {
-        COOR_X1 -= 1;
-        if(COOR_X1 >= min) COOR_X1 = min;
-        return COOR_X1;
-    }
-    else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
-    {
-        COOR_X1 -= 2;
-        if(COOR_X1 >= min) COOR_X1 = min;
-        return COOR_X1;
-    }
-    else
-        return COOR_X1;
-}
-
 /* Updating Stick coordinates */
 void Joystick::updatePositionXY()
 {
@@ -786,17 +686,7 @@ void Joystick::updatePositionX1Y1(short minX1, short maxX1, short minY1, short m
     posX1 = calculatePositionX1(minX1, maxX1);
     posY1 = calculatePositionY1(minY1, maxY1);
 }
-void Joystick::updatePositionX0Y0(short minX, short maxX, short minY, short maxY) //in Stick 0
-{
-    posX0 = calculatePositionX0(minX, maxX);
-    posY0 = calculatePositionY0(minY, maxY);
-}
 
-void Joystick::updatePositionX1Y1(short minX, short maxX, short minY, short maxY) //in Stick 1
-{
-    posX1 = calculatePositionX1(minX, maxX);
-    posY1 = calculatePositionY1(minY, maxY);
-}
 
 /* Calculate position index */
 int8_t Joystick::calculateIndexY0() // obj 0y
