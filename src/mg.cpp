@@ -15,7 +15,6 @@
 
            +7 953 034 4001
 */
-
 #include <Arduino.h>
 #include <U8g2lib.h> 
 #include "mg.h"
