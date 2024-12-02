@@ -8,7 +8,7 @@ extern Joystick joy;
 extern Graphics gfx;
 
 bool stateGame2 = false; //AI
-bool stateGame2 = false; //AI
+//bool stateGame2 = false; //AI
 
 void playerKill();
 
