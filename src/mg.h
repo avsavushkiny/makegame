@@ -82,9 +82,10 @@ private:
 public:
     /* Turn on the backlight of the LCD screen. 1 enabled, 0 disabled. */
     void controlBacklight(bool state);
-
     /* Initial display setting. Sets Contrast to 0, analog DC at 12, sets port 8 to 1 */
     void initializationSystem();
+    /* Display wait-process */
+    void displayWait();
     /* We send the void-function to the display buffer for output. 
        The void-function will be completed by time-Delay-interval. */
     void render(void (*f)(), int timeDelay);

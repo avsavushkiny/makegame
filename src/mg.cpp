@@ -65,7 +65,7 @@ const int8_t PIN_STICK_1Y = 28; // adc 2
 const int8_t PIN_STICK_1X = 29; // adc 3
 const int8_t PIN_BUTTON_STICK_0 = 6;  // gp 6
 const int8_t PIN_BUTTON_STICK_1 = 7;  // gp 7
-const int8_t PIN_BACKLIGHT_LCD = 8;   // gp 8
+const int8_t PIN_BACKLIGHT_LCD  = 8;  // gp 8
 
 /* backlight */
 void Graphics::controlBacklight(bool state)
@@ -105,6 +105,13 @@ void Graphics::initializationSystem()
     //--
     delay(2500);
 }
+void Graphics::displayWait()
+{
+    u8g2.clearBuffer();
+    u8g2.drawXBMP(((WIDTH_LCD - waitProgramm_width)/2), ((HEIGHT_LCD - waitProgramm_height)/2), waitProgramm_width, waitProgramm_height, waitProgramm_bits);
+    u8g2.sendBuffer();
+    delay(150);
+}
 
 /* data render (full frame) */
 void Graphics::render(void (*f)(), int timeDelay)
@@ -123,9 +130,9 @@ void Graphics::render(void (*f)(), int timeDelay)
 /* data render (full frame) no time delay */
 void Graphics::render(void (*f)())
 {
-      u8g2.clearBuffer();
-      f();
-      u8g2.sendBuffer();
+    u8g2.clearBuffer();
+    f();
+    u8g2.sendBuffer();
 }
 
 /* clearing the output buffer */

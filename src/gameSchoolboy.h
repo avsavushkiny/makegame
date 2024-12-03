@@ -8,7 +8,7 @@ extern Joystick joy;
 extern Graphics gfx;
 extern Cursor crs;
 
-Button btn1, btn2;
+Button btn1, btn2, btn3;
 
 bool stateGame3 = false;
 
@@ -76,10 +76,12 @@ void setupGames()
 {
     if (flagSetupGameSchoolboy == false)
     {
-        for (int a = 0; a <= countSchoolboy; a++)
+        randomSeed(analogRead(29));
+        
+        for (int a = 0; a < countSchoolboy; a++)
         {
             sb[a].numberSchoolboy = a;                      // определяем ребенка
-            sb[a].numberMove = random(0, countArrMove); // определяем для детей действия
+            sb[a].numberMove = random(0, countArrMove);     // определяем для детей действия
             sb[a].state = false;                            // все дети не прошли, пока что
         }
 
@@ -98,10 +100,15 @@ void buttonAB()
         delay(150);
     }
 
+    if (btn3.button("Re-play", 40 ,40, joy.posX0, joy.posY0)) flagSetupGameSchoolboy = false;
+
     gfx.print(arrSchoolboy[i], 0, 10);
     gfx.print(arrMove[sb[i].numberMove], 0, 20);
     
-    if (btn2.button("Exit", 0, 55, joy.posX0, joy.posY0)) stateGame3 = false;
+    if (btn2.button("Exit", 0, 55, joy.posX0, joy.posY0))
+    {
+        stateGame3 = false; flagSetupGameSchoolboy = false; gfx.displayWait();
+    }
     
 }
 
