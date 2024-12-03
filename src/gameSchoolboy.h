@@ -8,7 +8,7 @@ extern Joystick joy;
 extern Graphics gfx;
 extern Cursor crs;
 
-Button btn1, btn2, btn3;
+Button btn1, btn2, btn3, btn4;
 
 bool stateGame3 = false;
 
@@ -59,6 +59,7 @@ String arrSchoolboy[] =
 
 String arrMove[] =
     {
+        "Passed",
         "Podnimi ruki i zahodi",
         "Ulybnis i zahodi",
         "Stancuj i zahodi",
@@ -80,9 +81,14 @@ void setupGames()
         
         for (int a = 0; a < countSchoolboy; a++)
         {
-            sb[a].numberSchoolboy = a;                      // определяем ребенка
-            sb[a].numberMove = random(0, countArrMove);     // определяем для детей действия
-            sb[a].state = false;                            // все дети не прошли, пока что
+            sb[a].numberSchoolboy = a;                       // определяем ребенка
+
+            if (sb[a].state == false)
+            {
+                sb[a].numberMove = random(1, countArrMove);  // определяем для детей действия
+            }
+            
+            if (stateGame3 == false) sb[a].state = false;    // все дети не прошли, пока что
         }
 
         flagSetupGameSchoolboy = true; stateGame3 = true;
@@ -100,7 +106,14 @@ void buttonAB()
         delay(150);
     }
 
-    if (btn3.button("Re-play", 40 ,40, joy.posX0, joy.posY0)) flagSetupGameSchoolboy = false;
+    if (btn3.button("Re-play", 30 ,55, joy.posX0, joy.posY0)) flagSetupGameSchoolboy = false;
+
+    if (btn4.button("Passed", 40, 40, joy.posX0, joy.posY0))
+    {
+        sb[i].state = true;
+        sb[i].numberMove = 0;
+    }
+    
 
     gfx.print(arrSchoolboy[i], 0, 10);
     gfx.print(arrMove[sb[i].numberMove], 0, 20);
