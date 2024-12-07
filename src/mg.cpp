@@ -7,8 +7,10 @@
   0.1 - first release
   0.2 - add game Pong
       - add game Aliens Invaders
-  0.3 - fix bug position
+  0.3 - added functions with limited positions
       - add position with axis restrictions
+      - add game Schoolboy
+  0.4 - fix bug functions with limited positions
 
   Authors: [2024] Alexander Savushkin, Mihail Samoilov, Aleksander Miheev
            [2023] Alexander Savushkin, Ksenofontov Sergey, Mihail Samoilov
