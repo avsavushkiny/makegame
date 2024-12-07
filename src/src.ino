@@ -11,9 +11,6 @@ Shortcut iconSapper, iconSpaceInvaders, iconSchoolboy;
 void desktop()
 {
     //joy.updatePositionX0Y0(0, 127, 0, 64);
-    //joy.updatePositionX1Y1(0, 127, 0, 64);
-
-    //joy.updatePositionX0Y0(0, 127, 0, 63);
     joy.updatePositionXY();
 
     gfx.print("Move the cursor\nto the Pong game\nshortcut", 5, 10, 8, 5);
