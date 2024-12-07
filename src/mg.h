@@ -1,15 +1,3 @@
-/*
-    Library for MakeGame board.
-
-    [!] Educational version
-    [!] Required u8g2 library
-
-    author: Savushkin Alexander
-    git:    @avsavushkiny
-    e-mail: avsavushkiny@live.ru
-    date:   11.06.2023
-*/
-
 #include <U8g2lib.h>
 
 #ifndef MAKEGAME_H
@@ -107,6 +95,8 @@ public:
     /* Runs a void-function with text-string and output x-y-coordinates parameters.
        The interval-interval controls the output. */
     bool winkPrint(void (*f)(String, int, int), String text, int x, int y, /*delay*/ int interval);
+    /* Display wait */
+    void displayWait();
 };
 
 class Timer
@@ -145,6 +135,8 @@ public:
     /* The button starts the void-function, define the button text-text and output x-y-coordinates.
        xCursor-yCursor-coordinates of interaction with the cursor. */
     bool button(String text, uint8_t x, uint8_t y, void (*f)(void), int xCursor, int yCursor);
+    /*  */
+    bool button(String text, uint8_t x, uint8_t y, int xCursor, int yCursor);
 };
 
 class Shortcut : Joystick

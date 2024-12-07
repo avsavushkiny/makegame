@@ -7,8 +7,10 @@
   0.1 - first release
   0.2 - add game Pong
       - add game Aliens Invaders
-  0.3 - fix bug position
+  0.3 - added functions with limited positions
       - add position with axis restrictions
+      - add game Schoolboy
+  0.4 - fix bug functions with limited positions
 
   Authors: [2024] Alexander Savushkin, Mihail Samoilov, Aleksander Miheev
            [2023] Alexander Savushkin, Ksenofontov Sergey, Mihail Samoilov
@@ -65,7 +67,7 @@ const int8_t PIN_STICK_1Y = 28; // adc 2
 const int8_t PIN_STICK_1X = 29; // adc 3
 const int8_t PIN_BUTTON_STICK_0 = 6;  // gp 6
 const int8_t PIN_BUTTON_STICK_1 = 7;  // gp 7
-const int8_t PIN_BACKLIGHT_LCD = 8;   // gp 8
+const int8_t PIN_BACKLIGHT_LCD  = 8;  // gp 8
 
 /* backlight */
 void Graphics::controlBacklight(bool state)
@@ -105,6 +107,13 @@ void Graphics::initializationSystem()
     //--
     delay(2500);
 }
+void Graphics::displayWait()
+{
+    u8g2.clearBuffer();
+    u8g2.drawXBMP(((WIDTH_LCD - waitProgramm_width)/2), ((HEIGHT_LCD - waitProgramm_height)/2), waitProgramm_width, waitProgramm_height, waitProgramm_bits);
+    u8g2.sendBuffer();
+    delay(150);
+}
 
 /* data render (full frame) */
 void Graphics::render(void (*f)(), int timeDelay)
@@ -123,9 +132,9 @@ void Graphics::render(void (*f)(), int timeDelay)
 /* data render (full frame) no time delay */
 void Graphics::render(void (*f)())
 {
-      u8g2.clearBuffer();
-      f();
-      u8g2.sendBuffer();
+    u8g2.clearBuffer();
+    f();
+    u8g2.sendBuffer();
 }
 
 /* clearing the output buffer */
@@ -314,6 +323,36 @@ bool Button::button(String text, uint8_t x, uint8_t y, void (*f)(void), int xCur
   
   return false;
 }
+/* The button return value True or False */
+bool Button::button(String text, uint8_t x, uint8_t y, int xCursor, int yCursor)
+{
+  uint8_t sizeText = text.length();
+
+  if ((xCursor >= x && xCursor <= (x + (sizeText * 5) + 4)) && (yCursor >= y - 8 && yCursor <= y + 2))
+  {
+    u8g2.setDrawColor(1);
+    u8g2.drawRBox(x, y - 8, (sizeText * 5) + 5, 10, 2);
+
+    if (Joystick::pressKeyA() == true)
+    {
+      return true;
+    }
+  }
+  else
+  {
+    u8g2.setDrawColor(1);
+    u8g2.drawRFrame(x, y - 8, (sizeText * 5) + 5, 10, 2);
+  }
+
+  u8g2.setCursor(x + 3, y);
+  u8g2.setFont(u8g2_font_profont10_mr);
+  u8g2.setFontMode(1);
+  u8g2.setDrawColor(2);
+  u8g2.print(text);
+  u8g2.setFontMode(0);
+  
+  return false;
+}
 
 /* shortcut */
 bool Shortcut::shortcut(const uint8_t *bitMap, uint8_t x, uint8_t y, void (*f)(void), int xCursor, int yCursor)
@@ -442,13 +481,13 @@ int Joystick::calculatePositionX0() // 0x
     else if ((RAW_DATA_X0 > (DEF_RES_X0 + 200)) && (RAW_DATA_X0 < (DEF_RES_X0 + 1100)))
     {
         COOR_X0 -= 1;
-        if(COOR_X0 >= 0) COOR_X0 = 0;
+        if(COOR_X0 <= 0) COOR_X0 = 0;
         return COOR_X0;
     }
     else if (RAW_DATA_X0 > (DEF_RES_X0 + 1100))
     {
         COOR_X0 -= 2;
-        if(COOR_X0 >= 0) COOR_X0 = 0;
+        if(COOR_X0 <= 0) COOR_X0 = 0;
         return COOR_X0;
     }
     else
@@ -474,13 +513,13 @@ int Joystick::calculatePositionX1() // 1x
     else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
     {
         COOR_X1 -= 1;
-        if(COOR_X1 >= 0) COOR_X1 = 0;
+        if(COOR_X1 <= 0) COOR_X1 = 0;
         return COOR_X1;
     }
     else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
     {
         COOR_X1 -= 2;
-        if(COOR_X1 >= 0) COOR_X1 = 0;
+        if(COOR_X1 <= 0) COOR_X1 = 0;
         return COOR_X1;
     }
     else
@@ -599,151 +638,21 @@ int Joystick::calculatePositionX1(short min, short max) // 1x
     {
         COOR_X1 += 2;
         if(COOR_X1 >= max) COOR_X1 = max;
-        if(COOR_X1 >= 127) COOR_X1 = 127;
+
         return COOR_X1;
     }
     else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
     {
         COOR_X1 -= 1;
         if(COOR_X1 <= min) COOR_X1 = min;
-        if(COOR_X1 >= 0) COOR_X1 = 0;
+  
         return COOR_X1;
     }
     else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
     {
         COOR_X1 -= 2;
         if(COOR_X1 <= min) COOR_X1 = min;
-        if(COOR_X1 >= 0) COOR_X1 = 0;
-        return COOR_X1;
-    }
-    else
-        return COOR_X1;
-}
-
-//new
-/* calculate Stick position */
-int Joystick::calculatePositionY0(short min, short max) // 0y
-{
-    RAW_DATA_Y0 = analogRead(PIN_STICK_0Y);
-
-    if ((RAW_DATA_Y0 < (DEF_RES_Y0 - 200)) && (RAW_DATA_Y0 > (DEF_RES_Y0 - 1100)))
-    {
-        COOR_Y0 -= 1;
-        if (COOR_Y0 <= min) COOR_Y0 = min;
-        return COOR_Y0;
-    }
-    else if (RAW_DATA_Y0 < (DEF_RES_Y0 - 1100))
-    {
-        COOR_Y0 -= 2;
-        if (COOR_Y0 <= min) COOR_Y0 = min;
-        return COOR_Y0;
-    }
-    else if ((RAW_DATA_Y0 > (DEF_RES_Y0 + 200)) && (RAW_DATA_Y0 < (DEF_RES_Y0 + 1100)))
-    {
-        COOR_Y0 += 1;
-        if (COOR_Y0 >= max) COOR_Y0 = max;
-        return COOR_Y0;
-    }
-    else if (RAW_DATA_Y0 > (DEF_RES_Y0 + 1100))
-    {
-        COOR_Y0 += 2;
-        if (COOR_Y0 >= max) COOR_Y0 = max;
-        return COOR_Y0;
-    }
-    else
-        return COOR_Y0;
-}
-
-int Joystick::calculatePositionY1(short min, short max) // 1y
-{
-    RAW_DATA_Y1 = analogRead(PIN_STICK_1Y);
-
-    if ((RAW_DATA_Y1 < (DEF_RES_Y1 - 200)) && (RAW_DATA_Y1 > (DEF_RES_Y1 - 1100)))
-    {
-        COOR_Y1 -= 1;
-        if(COOR_Y1 <= min) COOR_Y1 = min;
-        return COOR_Y1;
-    }
-    else if (RAW_DATA_Y1 < (DEF_RES_Y1 - 1100))
-    {
-        COOR_Y1 -= 2;
-        if(COOR_Y1 <= min) COOR_Y1 = min;
-        return COOR_Y1;
-    }
-    else if ((RAW_DATA_Y1 > (DEF_RES_Y1 + 200)) && (RAW_DATA_Y1 < (DEF_RES_Y1 + 1100)))
-    {
-        COOR_Y1 += 1;
-        if(COOR_Y1 >= max) COOR_Y1 = max;
-        return COOR_Y1;
-    }
-    else if (RAW_DATA_Y1 > (DEF_RES_Y1 + 1100))
-    {
-        COOR_Y1 += 2;
-        if(COOR_Y1 >= max) COOR_Y1 = max;
-        return COOR_Y1;
-    }
-    else
-        return COOR_Y1;
-}
-
-int Joystick::calculatePositionX0(short min, short max) // 0x
-{
-    RAW_DATA_X0 = analogRead(PIN_STICK_0X);
-
-    if ((RAW_DATA_X0 < (DEF_RES_X0 - 200)) && (RAW_DATA_X0 > (DEF_RES_X0 - 1100)))
-    {
-        COOR_X0 += 1;
-        if(COOR_X0 >= max) COOR_X0 = max;
-        return COOR_X0;
-    }
-    else if (RAW_DATA_X0 < (DEF_RES_X0 - 1100))
-    {
-        COOR_X0 += 2;
-        if(COOR_X0 >= max) COOR_X0 = max;
-        return COOR_X0;
-    }
-    else if ((RAW_DATA_X0 > (DEF_RES_X0 + 200)) && (RAW_DATA_X0 < (DEF_RES_X0 + 1100)))
-    {
-        COOR_X0 -= 1;
-        if(COOR_X0 >= min) COOR_X0 = min;
-        return COOR_X0;
-    }
-    else if (RAW_DATA_X0 > (DEF_RES_X0 + 1100))
-    {
-        COOR_X0 -= 2;
-        if(COOR_X0 >= min) COOR_X0 = min;
-        return COOR_X0;
-    }
-    else
-        return COOR_X0;
-}
-
-int Joystick::calculatePositionX1(short min, short max) // 1x
-{
-    RAW_DATA_X1 = analogRead(PIN_STICK_1X);
-
-    if ((RAW_DATA_X1 < (DEF_RES_X1 - 200)) && (RAW_DATA_X1 > (DEF_RES_X1 - 1100)))
-    {
-        COOR_X1 += 1;
-        if(COOR_X1 >= max) COOR_X1 = max;
-        return COOR_X1;
-    }
-    else if (RAW_DATA_X1 < (DEF_RES_X1 - 1100))
-    {
-        COOR_X1 += 2;
-        if(COOR_X1 >= max) COOR_X1 = max;
-        return COOR_X1;
-    }
-    else if ((RAW_DATA_X1 > (DEF_RES_X1 + 200)) && (RAW_DATA_X1 < (DEF_RES_X1 + 1100)))
-    {
-        COOR_X1 -= 1;
-        if(COOR_X1 >= min) COOR_X1 = min;
-        return COOR_X1;
-    }
-    else if (RAW_DATA_X1 > (DEF_RES_X1 + 1100))
-    {
-        COOR_X1 -= 2;
-        if(COOR_X1 >= min) COOR_X1 = min;
+ 
         return COOR_X1;
     }
     else
@@ -786,17 +695,7 @@ void Joystick::updatePositionX1Y1(short minX1, short maxX1, short minY1, short m
     posX1 = calculatePositionX1(minX1, maxX1);
     posY1 = calculatePositionY1(minY1, maxY1);
 }
-void Joystick::updatePositionX0Y0(short minX, short maxX, short minY, short maxY) //in Stick 0
-{
-    posX0 = calculatePositionX0(minX, maxX);
-    posY0 = calculatePositionY0(minY, maxY);
-}
 
-void Joystick::updatePositionX1Y1(short minX, short maxX, short minY, short maxY) //in Stick 1
-{
-    posX1 = calculatePositionX1(minX, maxX);
-    posY1 = calculatePositionY1(minY, maxY);
-}
 
 /* Calculate position index */
 int8_t Joystick::calculateIndexY0() // obj 0y

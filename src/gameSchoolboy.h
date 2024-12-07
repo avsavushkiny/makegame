@@ -6,6 +6,11 @@
 
 extern Joystick joy;
 extern Graphics gfx;
+extern Cursor crs;
+
+Button btn1, btn2, btn3, btn4;
+
+bool stateGame3 = false;
 
 #define icon_MyNullApp_width 32
 #define icon_MyNullApp_height 32
@@ -54,6 +59,7 @@ String arrSchoolboy[] =
 
 String arrMove[] =
     {
+        "Passed",
         "Podnimi ruki i zahodi",
         "Ulybnis i zahodi",
         "Stancuj i zahodi",
@@ -66,18 +72,60 @@ schoolBoy sb[sizeof(arrSchoolboy)/sizeof(arrSchoolboy[1])];
 int countSchoolboy = sizeof(arrSchoolboy)/sizeof(arrSchoolboy[1]);
 int countArrMove = sizeof(arrMove)/sizeof(arrMove[1]);
 
+bool flagSetupGameSchoolboy = false;
 void setupGames()
 {
-    int i{};
-    for (int a = 0; a <= countSchoolboy; a++)
+    if (flagSetupGameSchoolboy == false)
     {
-        sb[a].numberSchoolboy = a;   // определяем ребенка
-        sb[a].numberMove = random(0, countArrMove + 1); // определяем для детей действия
-        sb[a].state = false;         // все дети не прошли, пока что
+        randomSeed(analogRead(29));
+        
+        for (int a = 0; a < countSchoolboy; a++)
+        {
+            sb[a].numberSchoolboy = a;                       // определяем ребенка
+
+            if (sb[a].state == false)
+            {
+                sb[a].numberMove = random(1, countArrMove);  // определяем для детей действия
+            }
+            
+            if (stateGame3 == false) sb[a].state = false;    // все дети не прошли, пока что
+        }
+
+        flagSetupGameSchoolboy = true; stateGame3 = true;
     }
 }
 
-void gamesS()
+int i{};
+void buttonAB()
+{
+    if (btn1.button("Go boy", 0, 40, joy.posX0, joy.posY0))
+    {
+        i += 1; 
+        if (i > countSchoolboy) i = 0;
+        
+        delay(150);
+    }
+
+    if (btn3.button("Re-play", 30 ,55, joy.posX0, joy.posY0)) flagSetupGameSchoolboy = false;
+
+    if (btn4.button("Passed", 40, 40, joy.posX0, joy.posY0))
+    {
+        sb[i].state = true;
+        sb[i].numberMove = 0;
+    }
+    
+
+    gfx.print(arrSchoolboy[i], 0, 10);
+    gfx.print(arrMove[sb[i].numberMove], 0, 20);
+    
+    if (btn2.button("Exit", 0, 55, joy.posX0, joy.posY0))
+    {
+        stateGame3 = false; flagSetupGameSchoolboy = false; gfx.displayWait();
+    }
+    
+}
+
+void outputSerialSchoolboy()
 {
     for (schoolBoy all : sb)
     {
@@ -87,21 +135,15 @@ void gamesS()
     }
 }
 
-int ii{};
-void button()
+void outputRenderSchoolboy()
 {
-    if (joy.pressKeyA() == true)
-    {
-        ii = ii + 1;
-    }
-}
-
-void games()
-{
-
+    gfx.print("Please Push\nbutton A", 0, 10, 10, 5);
 }
 
 void gameSchoolboy()
 {
+    setupGames(); buttonAB(); //stateGame3 = true;
 
+    joy.updatePositionX0Y0(0, 127, 0, 64);
+    crs.cursor(true, joy.posX0, joy.posY0);
 }
