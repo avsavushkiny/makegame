@@ -21,7 +21,6 @@ void desktop()
     iconSchoolboy.shortcut(icon_MyNullApp_bits, 79, 30, gameSchoolboy, joy.posX0, joy.posY0);
     
     crs.cursor(true, joy.posX0, joy.posY0);
-    crs2.cursor(true, joy.posX1, joy.posY1);
 }
 
 void interfaceBoard()
