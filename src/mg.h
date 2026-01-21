@@ -1,3 +1,11 @@
+/*
+
+Makegame  
+Version 1.0.0
+Alexander Savushkin
+
+*/
+
 #include <U8g2lib.h>
 
 #ifndef MAKEGAME_H
