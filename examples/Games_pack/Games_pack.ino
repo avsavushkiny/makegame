@@ -1,4 +1,4 @@
-#include "mg.h"
+#include <mg.h>
 #include "gamePong.h"
 #include "gameAliens.h"
 #include "gameSchoolboy.h"

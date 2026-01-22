@@ -1,15 +1,36 @@
 /*
 
-Makegame  
-Version 1.1.0
-Alexander Savushkin
+█▀▄▀█ █▀▀█ █░█ █▀▀ █▀▀▀ █▀▀█ █▀▄▀█ █▀▀
+█░▀░█ █▄▄█ █▀▄ █▀▀ █░▀█ █▄▄█ █░▀░█ █▀▀
+▀░░░▀ ▀░░▀ ▀░▀ ▀▀▀ ▀▀▀▀ ▀░░▀ ▀░░░▀ ▀▀▀
+
+This code is developed and maintained only by students of
+the Children's Creativity Center 2 in Saransk.
+
+A programmable console for learning the C++ programming language through
+the use of game algorithms. Create your own game!
+
+[!] Required u8g2 library
+[!] bmp to xbmp image converter https://www.online-utility.org/image/convert/to/XBM
+
+1.0.0 - first release
+1.1.0 - add games: Pong, Aliens Invaders, Schoolboy
+      - added functions with limited positions
+      - add position with axis restrictions
+      - fix bug functions with limited positions
+1.1.1 - memory optimization
+
+Authors: Alexander Savushkin, Ksenofontov Sergey
+         Mihail Samoilov, Aleksander Miheev
+
+         +7 953 034 4001
 
 */
 
 #include <U8g2lib.h>
 
-#ifndef MAKEGAME_H
-#define MAKEGAME_H
+#ifndef MG_H
+#define MG_H
 
 /* We let the compiler know that the u8g2 object is defined in another file */
 extern U8G2_ST7565_ERC12864_F_4W_SW_SPI u8g2;
@@ -173,7 +194,7 @@ class Screensaver : Joystick
         bool isTouched();    
     public:
         /* Turn off backlight and start infinite loop to pause if (is touched()) */
-        void screensaver(bool state, uint timeUntil);
+        void screensaver(bool state, uint32_t timeUntil);
 };
 
 #endif
