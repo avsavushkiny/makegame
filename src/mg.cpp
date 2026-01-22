@@ -1,29 +1,10 @@
-/*
-  Contains function settings for working with the display.
-
-  [!] Required u8g2 library
-  [!] bmp to xbmp image converter https://www.online-utility.org/image/convert/to/XBM
-
-  0.1 - first release
-  0.2 - add game Pong
-      - add game Aliens Invaders
-  0.3 - added functions with limited positions
-      - add position with axis restrictions
-      - add game Schoolboy
-  0.4 - fix bug functions with limited positions
-
-  Authors: [2024] Alexander Savushkin, Mihail Samoilov, Aleksander Miheev
-           [2023] Alexander Savushkin, Ksenofontov Sergey, Mihail Samoilov
-
-           +7 953 034 4001
-*/
 #include <Arduino.h>
 #include <U8g2lib.h> 
 #include "mg.h"
 #include "xbmp.h"
 
 //version library
-const int8_t VERSION_LIB[] = {0, 3};
+const int8_t VERSION_LIB[] = {1, 1, 1};
 
 Graphics _gfx;
 
@@ -102,7 +83,7 @@ void Graphics::initializationSystem()
     //--
     u8g2.clearBuffer();
     u8g2.drawXBMP(((WIDTH_LCD - mg_l_w)/2), ((HEIGHT_LCD - mg_l_h)/2), mg_l_w, mg_l_h, mg_l_bits); //56x28 px
-    _gfx.print(6, (String)VERSION_LIB[0] + "." + (String)VERSION_LIB[1] , 0, 63, 10, 4);
+    _gfx.print(6, (String)VERSION_LIB[0] + "." + (String)VERSION_LIB[1] + "." + (String)VERSION_LIB[2] , 0, 63, 10, 4);
     u8g2.sendBuffer();
     //--
     delay(2500);
@@ -894,7 +875,7 @@ void sleepModeText()
 
 /* Turns off the backlight and turns on an infinite loop
    with the text to pause until the joysticks are pressed or moved */
-void Screensaver::screensaver(bool state, uint timeUntil)
+void Screensaver::screensaver(bool state, uint32_t timeUntil)
 {
   if ((state == true))
   {
